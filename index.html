@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vanta Sarukulu</title>
@@ -9,10 +8,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#287a28">
 
     <link rel="icon" type="image/png" href="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png">
     <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
 
     <style>
         body, html {
@@ -20,66 +21,154 @@
             padding: 0;
             height: 100%;
             overflow: hidden; 
-            background-color: #ffffff;
-            font-family: sans-serif;
+            background-color: #f0f4f8; /* Matches your app's light theme */
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-        /* Loading screen styles */
-        #loader {
+
+        /* --- BEAUTIFUL SPLASH SCREEN --- */
+        #splash-screen {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            text-align: center;
-            padding: 20px;
+            width: 100vw;
+            background: linear-gradient(135deg, #f7f9f6, #e2e8f0);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
         }
+
+        .splash-logo {
+            width: 140px;
+            height: auto;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 5px solid rgba(22, 163, 74, 0.2); /* Light green */
+            border-top: 5px solid #16a34a; /* Accent green */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        .status-text {
+            color: #334155;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- IFRAME (The App) --- */
         iframe {
             width: 100vw;
             height: 100vh;
             border: none;
-            display: none; /* Hidden until location is processed */
+            display: none; 
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>
 <body>
     
-    <div id="loader">Requesting location access to load the app...</div>
+    <div id="splash-screen">
+        <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Vanga Satyanarayana" class="splash-logo">
+        <div class="spinner"></div>
+        <div class="status-text" id="status-message">Starting Vantamesthri...</div>
+    </div>
     
     <iframe id="appFrame" src="" allow="geolocation"></iframe>
 
     <script>
-        // --- 1. LOCATION PERMISSION ---
-        const appsScriptUrl = "https://script.google.com/macros/s/AKfycbyFOXbDaYUYCnRqNM-CUOqD90FmVfr5jj8-BQwMMAzwBZuphnmX5lHRe1Dj-G3CpUaf/exec"; // PASTE YOUR LINK HERE
+        // --- YOUR GOOGLE APPS SCRIPT URL ---
+        const appsScriptUrl = "https://script.google.com/macros/s/AKfycbyFOXbDaYUYCnRqNM-CUOqD90FmVfr5jj8-BQwMMAzwBZuphnmX5lHRe1Dj-G3CpUaf/exec";
 
-        function loadApp() {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('appFrame').src = appsScriptUrl;
-            document.getElementById('appFrame').style.display = 'block';
+        const splashScreen = document.getElementById('splash-screen');
+        const appFrame = document.getElementById('appFrame');
+        const statusMessage = document.getElementById('status-message');
+
+        function revealApp() {
+            // Give the iframe a second to render, then fade out the splash screen
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                appFrame.style.display = 'block';
+                // Trigger reflow to ensure smooth transition
+                void appFrame.offsetWidth;
+                appFrame.style.opacity = '1';
+                
+                // Remove splash screen from DOM after fade out
+                setTimeout(() => {
+                    splashScreen.style.visibility = 'hidden';
+                }, 600);
+            }, 800);
         }
 
-        // Ask for location when the page opens
+        function loadApp() {
+            statusMessage.innerText = "Loading data...";
+            appFrame.src = appsScriptUrl;
+            
+            // Wait for the iframe to finish loading before hiding the splash screen
+            appFrame.onload = function() {
+                revealApp();
+            };
+
+            // Fallback in case onload fails to trigger on mobile
+            setTimeout(revealApp, 4000); 
+        }
+
+        // --- LOCATION PERMISSION ---
+        statusMessage.innerText = "Checking location...";
+        
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    // Permission granted
-                    console.log("Latitude:", position.coords.latitude, "Longitude:", position.coords.longitude);
+                    console.log("Location found:", position.coords.latitude, position.coords.longitude);
                     loadApp(); 
                 },
                 function(error) {
-                    // Permission denied or failed
-                    alert("Location access was denied. The app will still load.");
+                    console.log("Location denied or unavailable. Loading anyway.");
                     loadApp(); 
-                }
+                },
+                { timeout: 4000 } // Don't wait longer than 4 seconds for location
             );
         } else {
-            // Browser doesn't support geolocation
             loadApp();
         }
 
-        // --- 2. WARNING BEFORE CLOSING/REFRESHING ---
+        // --- WARNING BEFORE CLOSING/REFRESHING ---
+        // Catches accidental back-button presses or page refreshes
         window.addEventListener('beforeunload', function (e) {
-            // This triggers the browser's default "Are you sure you want to leave?" popup
+            // Most modern browsers require this specific format to show the warning
             e.preventDefault();
-            e.returnValue = '';
+            e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+            return 'You have unsaved changes. Are you sure you want to leave?';
+        });
+        
+        // Trick to ensure the beforeunload event registers even if the user interacts with the iframe
+        window.addEventListener('click', function() {
+            window.focus();
         });
     </script>
 </body>
