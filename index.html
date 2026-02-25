@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vanta Sarukulu</title>
@@ -11,6 +12,7 @@
 
     <link rel="icon" type="image/png" href="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png">
+    <link rel="manifest" href="manifest.json">
 
     <style>
         body, html {
@@ -42,7 +44,7 @@
     
     <div id="loader">Requesting location access to load the app...</div>
     
-    <iframe id="appFrame" src=""></iframe>
+    <iframe id="appFrame" src="" allow="geolocation"></iframe>
 
     <script>
         // --- 1. LOCATION PERMISSION ---
