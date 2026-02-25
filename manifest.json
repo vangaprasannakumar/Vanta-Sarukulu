@@ -1,0 +1,17 @@
+{
+  "name": "Vanga Satyanarayana, Vantamesthri",
+  "short_name": "Vantamesthri",
+  "description": "Inventory and Catering Order Management",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#287a28",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
