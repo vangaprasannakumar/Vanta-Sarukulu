@@ -21,7 +21,7 @@
             padding: 0;
             height: 100%;
             overflow: hidden; 
-            background-color: #f0f4f8; /* Matches your app's light theme */
+            background-color: #f0f4f8; 
             font-family: 'Poppins', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
@@ -54,8 +54,8 @@
         .spinner {
             width: 45px;
             height: 45px;
-            border: 5px solid rgba(22, 163, 74, 0.2); /* Light green */
-            border-top: 5px solid #16a34a; /* Accent green */
+            border: 5px solid rgba(22, 163, 74, 0.2); 
+            border-top: 5px solid #16a34a; 
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
@@ -110,15 +110,11 @@
         const statusMessage = document.getElementById('status-message');
 
         function revealApp() {
-            // Give the iframe a second to render, then fade out the splash screen
             setTimeout(() => {
                 splashScreen.style.opacity = '0';
                 appFrame.style.display = 'block';
-                // Trigger reflow to ensure smooth transition
                 void appFrame.offsetWidth;
                 appFrame.style.opacity = '1';
-                
-                // Remove splash screen from DOM after fade out
                 setTimeout(() => {
                     splashScreen.style.visibility = 'hidden';
                 }, 600);
@@ -128,48 +124,53 @@
         function loadApp() {
             statusMessage.innerText = "Loading data...";
             appFrame.src = appsScriptUrl;
-            
-            // Wait for the iframe to finish loading before hiding the splash screen
             appFrame.onload = function() {
                 revealApp();
             };
-
-            // Fallback in case onload fails to trigger on mobile
             setTimeout(revealApp, 4000); 
         }
 
-        // --- LOCATION PERMISSION ---
         statusMessage.innerText = "Checking location...";
         
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    console.log("Location found:", position.coords.latitude, position.coords.longitude);
-                    loadApp(); 
-                },
-                function(error) {
-                    console.log("Location denied or unavailable. Loading anyway.");
-                    loadApp(); 
-                },
-                { timeout: 4000 } // Don't wait longer than 4 seconds for location
+                function(position) { loadApp(); },
+                function(error) { loadApp(); },
+                { timeout: 4000 }
             );
         } else {
             loadApp();
         }
 
-        // --- WARNING BEFORE CLOSING/REFRESHING ---
-        // Catches accidental back-button presses or page refreshes
+        // ==========================================
+        //  BULLETPROOF BACK BUTTON & REFRESH TRAP
+        // ==========================================
+
+        // 1. Trap the "Refresh" and "Close Tab" actions
         window.addEventListener('beforeunload', function (e) {
-            // Most modern browsers require this specific format to show the warning
             e.preventDefault();
-            e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
-            return 'You have unsaved changes. Are you sure you want to leave?';
+            e.returnValue = ''; // Required for Chrome
+            return ''; // Required for older browsers
+        });
+
+        // 2. Trap the mobile "Back" button or Swipe Back gesture
+        // We push a "fake" state into the browser history immediately.
+        window.history.pushState({ appLoaded: true }, "", "");
+
+        window.addEventListener('popstate', function(event) {
+            // This event fires the exact moment the user hits the Back button.
+            var leaveApp = confirm("Are you sure you want to go back? Any unsaved data will be lost.");
+            
+            if (leaveApp) {
+                // If they click OK, we let them leave the page.
+                window.history.back();
+            } else {
+                // If they click Cancel, we immediately push the fake state again 
+                // so they are safely trapped inside the app!
+                window.history.pushState({ appLoaded: true }, "", "");
+            }
         });
         
-        // Trick to ensure the beforeunload event registers even if the user interacts with the iframe
-        window.addEventListener('click', function() {
-            window.focus();
-        });
     </script>
 </body>
 </html>
