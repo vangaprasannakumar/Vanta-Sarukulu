@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>Vanta Sarukulu</title>
+    <title>Vantamesthri App</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -19,18 +18,67 @@
             padding: 0;
             height: 100%;
             overflow: hidden; 
-            background-color: #ffffff; /* You can change this to match your app's background */
+            background-color: #ffffff;
+            font-family: sans-serif;
+        }
+        /* Loading screen styles */
+        #loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
         }
         iframe {
             width: 100vw;
             height: 100vh;
             border: none;
+            display: none; /* Hidden until location is processed */
         }
     </style>
 </head>
 <body>
     
-    <iframe src="https://script.google.com/macros/s/AKfycbyFOXbDaYUYCnRqNM-CUOqD90FmVfr5jj8-BQwMMAzwBZuphnmX5lHRe1Dj-G3CpUaf/exec"></iframe>
+    <div id="loader">Requesting location access to load the app...</div>
+    
+    <iframe id="appFrame" src=""></iframe>
 
+    <script>
+        // --- 1. LOCATION PERMISSION ---
+        const appsScriptUrl = "YOUR_APPS_SCRIPT_URL_HERE"; // PASTE YOUR LINK HERE
+
+        function loadApp() {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('appFrame').src = appsScriptUrl;
+            document.getElementById('appFrame').style.display = 'block';
+        }
+
+        // Ask for location when the page opens
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    // Permission granted
+                    console.log("Latitude:", position.coords.latitude, "Longitude:", position.coords.longitude);
+                    loadApp(); 
+                },
+                function(error) {
+                    // Permission denied or failed
+                    alert("Location access was denied. The app will still load.");
+                    loadApp(); 
+                }
+            );
+        } else {
+            // Browser doesn't support geolocation
+            loadApp();
+        }
+
+        // --- 2. WARNING BEFORE CLOSING/REFRESHING ---
+        window.addEventListener('beforeunload', function (e) {
+            // This triggers the browser's default "Are you sure you want to leave?" popup
+            e.preventDefault();
+            e.returnValue = '';
+        });
+    </script>
 </body>
 </html>
