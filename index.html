@@ -141,36 +141,6 @@
         } else {
             loadApp();
         }
-
-        // ==========================================
-        //  BULLETPROOF BACK BUTTON & REFRESH TRAP
-        // ==========================================
-
-        // 1. Trap the "Refresh" and "Close Tab" actions
-        window.addEventListener('beforeunload', function (e) {
-            e.preventDefault();
-            e.returnValue = ''; // Required for Chrome
-            return ''; // Required for older browsers
-        });
-
-        // 2. Trap the mobile "Back" button or Swipe Back gesture
-        // We push a "fake" state into the browser history immediately.
-        window.history.pushState({ appLoaded: true }, "", "");
-
-        window.addEventListener('popstate', function(event) {
-            // This event fires the exact moment the user hits the Back button.
-            var leaveApp = confirm("Are you sure you want to go back? Any unsaved data will be lost.");
-            
-            if (leaveApp) {
-                // If they click OK, we let them leave the page.
-                window.history.back();
-            } else {
-                // If they click Cancel, we immediately push the fake state again 
-                // so they are safely trapped inside the app!
-                window.history.pushState({ appLoaded: true }, "", "");
-            }
-        });
-        
     </script>
 </body>
 </html>
