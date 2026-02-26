@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" href="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png">
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         body, html {
@@ -24,31 +24,127 @@
             background-color: #f0f4f8; 
             font-family: 'Poppins', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
-        /* --- BEAUTIFUL SPLASH SCREEN --- */
-        #splash-screen {
+        /* --- 1. PIN SCREEN --- */
+        #pin-screen {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             width: 100vw;
-            background: linear-gradient(135deg, #f7f9f6, #e2e8f0);
+            background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10000;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .pin-logo {
+            width: 100px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .pin-title {
+            color: #334155;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .pin-dots {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #16a34a;
+            background: transparent;
+            transition: 0.2s ease;
+        }
+
+        .dot.filled {
+            background: #16a34a;
+            transform: scale(1.1);
+        }
+
+        .numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding: 0 20px;
+        }
+
+        .num-btn {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            font-size: 28px;
+            font-weight: 500;
+            border: none;
+            background: #ffffff;
+            color: #334155;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .num-btn:active {
+            background: #e2e8f0;
+            transform: scale(0.9);
+        }
+
+        .num-btn.empty {
+            background: transparent;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        .num-btn.delete {
+            background: transparent;
+            box-shadow: none;
+            color: #ef4444;
+            font-size: 22px;
+        }
+
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+            40%, 60% { transform: translate3d(8px, 0, 0); }
+        }
+
+        /* --- 2. LOADING SPLASH SCREEN --- */
+        #splash-screen {
+            display: none; /* Hidden until PIN is entered */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background: #f7f9f6;
             position: absolute;
             top: 0;
             left: 0;
             z-index: 9999;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-        .splash-logo {
-            width: 140px;
-            height: auto;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            margin-bottom: 30px;
-            animation: float 3s ease-in-out infinite;
+            transition: opacity 0.6s ease;
         }
 
         .spinner {
@@ -65,22 +161,11 @@
             color: #334155;
             font-size: 16px;
             font-weight: 600;
-            text-align: center;
-            padding: 0 20px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* --- IFRAME (The App) --- */
+        /* --- 3. THE APP IFRAME --- */
         iframe {
             width: 100vw;
             height: 100vh;
@@ -93,18 +178,98 @@
 </head>
 <body>
     
+    <div id="pin-screen">
+        <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Logo" class="pin-logo">
+        <div class="pin-title">Enter App PIN</div>
+        
+        <div class="pin-dots" id="dots-container">
+            <div class="dot" id="dot-1"></div>
+            <div class="dot" id="dot-2"></div>
+            <div class="dot" id="dot-3"></div>
+            <div class="dot" id="dot-4"></div>
+        </div>
+
+        <div class="numpad">
+            <button class="num-btn" onclick="pressPin('1')">1</button>
+            <button class="num-btn" onclick="pressPin('2')">2</button>
+            <button class="num-btn" onclick="pressPin('3')">3</button>
+            <button class="num-btn" onclick="pressPin('4')">4</button>
+            <button class="num-btn" onclick="pressPin('5')">5</button>
+            <button class="num-btn" onclick="pressPin('6')">6</button>
+            <button class="num-btn" onclick="pressPin('7')">7</button>
+            <button class="num-btn" onclick="pressPin('8')">8</button>
+            <button class="num-btn" onclick="pressPin('9')">9</button>
+            <div class="num-btn empty"></div>
+            <button class="num-btn" onclick="pressPin('0')">0</button>
+            <button class="num-btn delete" onclick="deletePin()">⌫</button>
+        </div>
+    </div>
+
     <div id="splash-screen">
-        <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Vanga Satyanarayana" class="splash-logo">
         <div class="spinner"></div>
-        <div class="status-text" id="status-message">Starting Vantamesthri...</div>
+        <div class="status-text" id="status-message">Loading Vantamesthri...</div>
     </div>
     
     <iframe id="appFrame" src="" allow="geolocation"></iframe>
 
     <script>
-        // --- YOUR GOOGLE APPS SCRIPT URL ---
-        const appsScriptUrl = "https://script.google.com/macros/s/AKfycbyFOXbDaYUYCnRqNM-CUOqD90FmVfr5jj8-BQwMMAzwBZuphnmX5lHRe1Dj-G3CpUaf/exec";
+        // --- 1. PIN LOGIC ---
+        const CORRECT_PIN = "2579";
+        let currentPin = "";
+        const dotsContainer = document.getElementById('dots-container');
 
+        function updateDots() {
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i <= currentPin.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            }
+        }
+
+        function pressPin(num) {
+            if (currentPin.length < 4) {
+                currentPin += num;
+                updateDots();
+                
+                // If 4 digits entered, check it
+                if (currentPin.length === 4) {
+                    setTimeout(verifyPin, 150); // Tiny delay so they see the 4th dot fill
+                }
+            }
+        }
+
+        function deletePin() {
+            if (currentPin.length > 0) {
+                currentPin = currentPin.slice(0, -1);
+                updateDots();
+            }
+        }
+
+        function verifyPin() {
+            if (currentPin === CORRECT_PIN) {
+                // PIN is Correct! Unlock the app.
+                document.getElementById('pin-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('pin-screen').style.display = 'none';
+                    initAppLoader(); // Start loading the actual app
+                }, 400);
+            } else {
+                // PIN is Wrong! Shake and reset.
+                dotsContainer.classList.add('shake');
+                setTimeout(() => {
+                    dotsContainer.classList.remove('shake');
+                    currentPin = "";
+                    updateDots();
+                }, 400);
+            }
+        }
+
+
+        // --- 2. APP INITIALIZATION (Runs only after unlock) ---
+        const appsScriptUrl = "https://script.google.com/macros/s/AKfycbyFOXbDaYUYCnRqNM-CUOqD90FmVfr5jj8-BQwMMAzwBZuphnmX5lHRe1Dj-G3CpUaf/exec";
         const splashScreen = document.getElementById('splash-screen');
         const appFrame = document.getElementById('appFrame');
         const statusMessage = document.getElementById('status-message');
@@ -113,34 +278,51 @@
             setTimeout(() => {
                 splashScreen.style.opacity = '0';
                 appFrame.style.display = 'block';
-                void appFrame.offsetWidth;
+                void appFrame.offsetWidth; // Trigger reflow
                 appFrame.style.opacity = '1';
                 setTimeout(() => {
-                    splashScreen.style.visibility = 'hidden';
+                    splashScreen.style.display = 'none';
                 }, 600);
-            }, 800);
+            }, 500);
         }
 
-        function loadApp() {
-            statusMessage.innerText = "Loading data...";
+        function loadGoogleScript() {
+            statusMessage.innerText = "Connecting to Google...";
             appFrame.src = appsScriptUrl;
+            
             appFrame.onload = function() {
                 revealApp();
             };
+            // Fallback timeout
             setTimeout(revealApp, 4000); 
         }
 
-        statusMessage.innerText = "Checking location...";
-        
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position) { loadApp(); },
-                function(error) { loadApp(); },
-                { timeout: 4000 }
-            );
-        } else {
-            loadApp();
+        function initAppLoader() {
+            // Show the loading spinner
+            splashScreen.style.display = 'flex';
+            
+            // Check location permissions first, then load the app
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) { loadGoogleScript(); },
+                    function(error) { loadGoogleScript(); },
+                    { timeout: 3000 }
+                );
+            } else {
+                loadGoogleScript();
+            }
         }
+
+        // --- 3. BULLETPROOF BACK BUTTON TRAP ---
+        window.history.pushState({ appLoaded: true }, "", "");
+        window.addEventListener('popstate', function(event) {
+            var leaveApp = confirm("Are you sure you want to go back? Any unsaved data will be lost.");
+            if (leaveApp) {
+                window.history.back();
+            } else {
+                window.history.pushState({ appLoaded: true }, "", "");
+            }
+        });
     </script>
 </body>
 </html>
