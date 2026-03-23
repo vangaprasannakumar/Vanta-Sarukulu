@@ -21,21 +21,24 @@
             background-color: #f0f4f8; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- BEAUTIFUL SPLASH SCREEN --- */
-        #splash-screen {
+        #splash-screen, #offline-screen {
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             height: 100vh; width: 100vw; background: linear-gradient(135deg, #f7f9f6, #e2e8f0);
             position: absolute; top: 0; left: 0; z-index: 9999;
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
+        
+        #offline-screen { display: none; z-index: 10000; }
+
         .splash-logo { width: 140px; height: auto; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); margin-bottom: 30px; animation: float 3s ease-in-out infinite; }
         .spinner { width: 45px; height: 45px; border: 5px solid rgba(22, 163, 74, 0.2); border-top: 5px solid #16a34a; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;}
         .status-text { color: #334155; font-size: 16px; font-weight: 600; text-align: center; padding: 0 20px;}
+        
+        .retry-btn { margin-top: 20px; background: #16a34a; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 
-        /* --- IFRAME (The App) --- */
         iframe { width: 100vw; height: 100vh; border: none; display: none; opacity: 0; transition: opacity 0.5s ease; }
     </style>
 </head>
@@ -46,6 +49,13 @@
         <div class="spinner"></div>
         <div class="status-text" id="status-message">Starting Vantamesthri...</div>
     </div>
+
+    <div id="offline-screen">
+        <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Offline Logo" class="splash-logo" style="animation: none; filter: grayscale(100%);">
+        <div class="status-text" style="color: #dc2626; font-size: 18px;">You are Offline</div>
+        <div class="status-text" style="font-size: 14px; margin-top: 10px;">Please check your internet connection.</div>
+        <button class="retry-btn" onclick="window.location.reload()">Try Again</button>
+    </div>
     
     <iframe id="appFrame" src="" allow="geolocation"></iframe>
 
@@ -54,8 +64,18 @@
         const appsScriptUrl = "https://script.google.com/macros/s/AKfycbyFOXbDaYUYCnRqNM-CUOqD90FmVfr5jj8-BQwMMAzwBZuphnmX5lHRe1Dj-G3CpUaf/exec";
 
         const splashScreen = document.getElementById('splash-screen');
+        const offlineScreen = document.getElementById('offline-screen');
         const appFrame = document.getElementById('appFrame');
         const statusMessage = document.getElementById('status-message');
+
+        // Service Worker Registration for PWA caching
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    console.log('ServiceWorker registered:', reg.scope);
+                }).catch(err => console.log('ServiceWorker failed:', err));
+            });
+        }
 
         function revealApp() {
             setTimeout(() => {
@@ -68,22 +88,39 @@
         }
 
         function loadApp() {
+            if (!navigator.onLine) {
+                showOffline();
+                return;
+            }
             statusMessage.innerText = "Loading data...";
             appFrame.src = appsScriptUrl;
             appFrame.onload = function() { revealApp(); };
             setTimeout(revealApp, 4000); 
         }
 
+        function showOffline() {
+            splashScreen.style.display = 'none';
+            appFrame.style.display = 'none';
+            offlineScreen.style.display = 'flex';
+        }
+
+        window.addEventListener('online', () => { window.location.reload(); });
+        window.addEventListener('offline', showOffline);
+
         statusMessage.innerText = "Checking location...";
         
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position) { loadApp(); },
-                function(error) { loadApp(); },
-                { timeout: 4000 }
-            );
+        if (navigator.onLine) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function() { loadApp(); },
+                    function() { loadApp(); },
+                    { timeout: 4000 }
+                );
+            } else {
+                loadApp();
+            }
         } else {
-            loadApp();
+            showOffline();
         }
     </script>
 </body>
