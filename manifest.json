@@ -2,7 +2,7 @@
   "name": "Vanga Satyanarayana, Vanta Sarukulu",
   "short_name": "Vanta Sarukulu",
   "description": "Inventory and Catering Order Management",
-  "start_url": "./",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#287a28",
@@ -12,6 +12,34 @@
       "sizes": "192x192 512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Order",
+      "short_name": "New Order",
+      "description": "Create a new catering order",
+      "url": "./index.html?view=new",
+      "icons": [
+        {
+          "src": "https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png",
+          "sizes": "192x192 512x512",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Order History",
+      "short_name": "History",
+      "description": "View past orders",
+      "url": "./index.html?view=history",
+      "icons": [
+        {
+          "src": "https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png",
+          "sizes": "192x192 512x512",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }
