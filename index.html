@@ -1,110 +1,2009 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vanta Sarukulu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Vanga Satyanarayana</title>
 
+    <meta name="theme-color" content="#0284c7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#287a28">
-
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png">
-    <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #f0f4f8; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-        #splash-screen, #offline-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw; background: linear-gradient(135deg, #f7f9f6, #e2e8f0); position: absolute; top: 0; left: 0; z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s ease; }
-        #offline-screen { display: none; z-index: 10000; }
-        .splash-logo { width: 140px; height: auto; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); margin-bottom: 30px; animation: float 3s ease-in-out infinite; }
-        .spinner { width: 45px; height: 45px; border: 5px solid rgba(22, 163, 74, 0.2); border-top: 5px solid #16a34a; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;}
-        .status-text { color: #334155; font-size: 16px; font-weight: 600; text-align: center; padding: 0 20px;}
-        .retry-btn { margin-top: 20px; background: #16a34a; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        iframe { width: 100vw; height: 100vh; border: none; display: none; opacity: 0; transition: opacity 0.5s ease; }
+        :root {
+            color-scheme: light;
+            --bg-body: #f1f5f9; --bg-card: #ffffff; --text-main: #1e293b; --text-light: #64748b;
+            --border: #e2e8f0; --primary: #0284c7; --primary-hover: #0369a1; --accent: #10b981;
+            --tab-bg: #f1f5f9; --table-header: #f8fafc; --stepper-bg: #f8fafc; --shadow: 0 12px 32px rgba(0,0,0,0.05);
+            --row-highlight: #f0fdf4; --row-hover: #f8fafc; --review-bg: #fffbeb;
+        }
+        [data-theme="dark"] {
+            color-scheme: dark;
+            --bg-body: #0f172a; --bg-card: #1e293b; --text-main: #f8fafc; --text-light: #94a3b8;
+            --border: #334155; --primary: #38bdf8; --primary-hover: #7dd3fc; --accent: #10b981;
+            --tab-bg: #0f172a; --table-header: #1e293b; --stepper-bg: #0f172a; --shadow: 0 12px 32px rgba(0,0,0,0.4);
+            --row-highlight: #064e3b; --row-hover: #334155; --review-bg: #78350f;
+        }
+
+        body { font-family: 'Poppins', 'Noto Sans Telugu', sans-serif; background: var(--bg-body); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; transition: background-color 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;}
+        
+        #zoom-wrapper { width: 100%; display: flex; justify-content: center; transition: zoom 0.2s ease;}
+        
+        .container { width: 95%; max-width: 900px; background: var(--bg-card); padding: 30px; border-radius: 32px; margin: 90px 0 30px 0; box-shadow: var(--shadow); transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.02);}
+        [data-theme="dark"] .container { border-color: rgba(255,255,255,0.05); }
+
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bouncyPop { 0% { opacity: 0; transform: scale(0.85) translateY(20px); } 60% { opacity: 1; transform: scale(1.02) translateY(-5px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes fadeInRow { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulseText { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* --- LOGIN SCREEN --- */
+        #loginView { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; width: 100%; background: var(--bg-body); position: fixed; top: 0; left: 0; z-index: 9999; }
+        .login-card { background: var(--bg-card); padding: 45px 35px; border-radius: 32px; box-shadow: var(--shadow); width: 90%; max-width: 400px; text-align: center; animation: bouncyPop 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); border: 1px solid rgba(0,0,0,0.02);}
+        [data-theme="dark"] .login-card { border-color: rgba(255,255,255,0.05); }
+        .login-card img { width: 110px; margin-bottom: 20px; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        .login-card h2 { margin: 0 0 25px 0; color: var(--text-main); font-size: 24px; font-weight: 800; letter-spacing: -0.5px;}
+        .login-input { padding: 18px 22px; border: 2px solid transparent; border-radius: 18px; width: 100%; box-sizing: border-box; background: var(--tab-bg); color: var(--text-main); font-family: inherit; font-size: 16px; font-weight: 500; margin-bottom: 15px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .login-input:focus { border-color: var(--primary); background: var(--bg-card); outline: none; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.08); transform: translateY(-2px); }
+        .login-btn { background: linear-gradient(135deg, var(--accent), #059669); color: white; border: none; padding: 20px; border-radius: 18px; width: 100%; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25); margin-top: 10px;}
+        .login-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(16, 185, 129, 0.35); }
+        .login-btn:active { transform: scale(0.96) translateY(2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+
+        .top-nav { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 20px rgba(0,0,0,0.04); display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; box-sizing: border-box; z-index: 1000; transition: background-color 0.3s ease, box-shadow 0.3s ease;}
+        [data-theme="dark"] .top-nav { background: rgba(30, 41, 59, 0.85); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .nav-left { display: flex; align-items: center; gap: 12px; }
+        .nav-left img { width: 42px; height: 42px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+        .nav-title { font-weight: 700; font-size: 19px; color: var(--text-main); letter-spacing: -0.3px;}
+        
+        .nav-right { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; justify-content: flex-end;}
+        .nav-icon-btn { background: var(--bg-body); color: var(--text-main); border: none; border-radius: 12px; padding: 0 16px; height: 40px; font-weight: 600; font-size: 14px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; display:flex; align-items:center; justify-content:center;}
+        .nav-icon-btn:active { transform: scale(0.9); background: var(--border); }
+        .nav-icon-btn.icon-only { width: 40px; padding: 0; font-size: 18px;}
+        
+        .notif-wrapper { position: relative; display: inline-flex; }
+        .notif-badge { position: absolute; top: -6px; right: -6px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(239,68,68,0.4); pointer-events: none; border: 2px solid var(--bg-card); transition: border-color 0.3s ease;}
+        
+        .zoom-controls { display: flex; background: var(--bg-body); border-radius: 12px; height: 40px; overflow: hidden; padding: 2px; transition: background-color 0.3s ease;}
+        .zoom-btn { background: transparent; color: var(--text-main); border: none; width: 36px; height: 100%; border-radius: 10px; font-size: 20px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease, transform 0.2s ease; }
+        .zoom-btn:active { background: var(--bg-card); box-shadow: 0 2px 8px rgba(0,0,0,0.05); transform: scale(0.95);}
+        .logout-btn { background: #fee2e2; color: #dc2626; }
+        [data-theme="dark"] .logout-btn { background: rgba(220, 38, 38, 0.2); color: #fca5a5; }
+
+        .user-name { font-weight: 600; color: var(--primary); font-size: 14px; margin-left: 5px; white-space: nowrap;}
+
+        #appWrapper { display: none; width: 100%; }
+
+        .card-header { background: linear-gradient(135deg, #f0fdf4, #ffffff); border: none; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; border-radius: 24px; padding: 25px; margin-bottom: 30px; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.08); transition: background 0.3s ease, box-shadow 0.3s ease; }
+        [data-theme="dark"] .card-header { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), var(--bg-card)); box-shadow: 0 8px 24px rgba(0,0,0,0.3);}
+        .left-col, .right-col { flex: 0 0 18%; display: flex; justify-content: center; align-items: center; }
+        .left-col img { max-height: 120px; width: auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); } .right-col img { max-height: 90px; width: auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));}
+        .mid-col { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 15px; }
+        .title { color: #dc2626; font-size: 30px; margin: 0 0 8px 0; line-height: 1.2; font-family: 'Noto Sans Telugu', sans-serif; font-weight: 800;}
+        .subtitle { font-size: 14px; line-height: 1.6; margin-bottom: 15px; font-weight: 500; color: var(--text-main); transition: color 0.3s ease;}
+        .address-box { border: none; background: #fef2f2; padding: 10px 20px; width: 90%; color: #991b1b; font-size: 15px; border-radius: 16px; font-weight: 500; transition: background-color 0.3s ease, color 0.3s ease;}
+        [data-theme="dark"] .address-box { background: rgba(220, 38, 38, 0.15); color: #fca5a5; }
+        .phone { font-size: 20px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-top: 6px; color: var(--text-main); transition: color 0.3s ease;}
+
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .home-menu { display: flex; flex-direction: column; gap: 15px; align-items: center; margin-top: 30px; }
+        .menu-btn { width: 100%; max-width: 350px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; border: none; padding: 22px; border-radius: 20px; font-size: 18px; font-weight: 700; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.25); }
+        .menu-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(2, 132, 199, 0.35); }
+        .menu-btn:active { transform: scale(0.96) translateY(2px); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2); }
+        .menu-btn.history { background: linear-gradient(135deg, var(--accent), #059669); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25); }
+        .menu-btn.history:hover { box-shadow: 0 12px 28px rgba(16, 185, 129, 0.35); }
+        .menu-btn.admin { background: linear-gradient(135deg, #7c3aed, #6d28d9); box-shadow: 0 8px 24px rgba(124, 58, 237, 0.25); display: none; }
+
+        .back-btn { background: var(--tab-bg); color: var(--text-main); border: none; padding: 14px 22px; border-radius: 14px; cursor: pointer; font-weight: 600; font-size: 15px; margin-bottom: 25px; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; display: inline-flex; align-items: center; gap: 8px; }
+        .back-btn:active { transform: translateX(-8px) scale(0.95); background: var(--border);}
+
+        .row { display: flex; gap: 15px; margin-top: 15px; }
+        .row > div { flex: 1; display: flex; }
+        input, select { padding: 18px 22px; border: 2px solid transparent; border-radius: 18px; width: 100%; box-sizing: border-box; background: var(--tab-bg); color: var(--text-main); font-family: inherit; font-size: 16px; font-weight: 500; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease; }
+        input:focus, select:focus { border-color: var(--primary); background: var(--bg-card); outline: none; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.08); transform: translateY(-2px); }
+        ::placeholder { color: var(--text-light); opacity: 0.8; font-weight: 400;}
+        
+        .geo-btn { background: var(--tab-bg); color: #ec4899; border: none; border-radius: 18px; width: 70px; cursor: pointer; font-size: 24px; transition: background-color 0.3s ease, transform 0.2s ease; display:flex; align-items:center; justify-content:center; margin-left: 10px;}
+        .geo-btn:active { transform: scale(0.85); background: #fce7f3; }
+        [data-theme="dark"] .geo-btn:active { background: rgba(236, 72, 153, 0.2); }
+
+        .control-bar { position: sticky; top: 64px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 15px 30px 10px 30px; z-index: 20; border-bottom: none; margin-bottom: 15px; margin-left: -30px; margin-right: -30px; border-radius: 0 0 24px 24px; box-shadow: 0 10px 25px -10px rgba(0,0,0,0.05); transition: background-color 0.3s ease;}
+        [data-theme="dark"] .control-bar { background: rgba(30, 41, 59, 0.85); box-shadow: 0 10px 25px -10px rgba(0,0,0,0.4);}
+        
+        /* Unified Toggle Buttons */
+        .admin-tabs { display: flex; gap: 15px; margin-bottom: 20px; }
+        .admin-tab-btn { flex: 1; background: var(--tab-bg); color: var(--text-main); border: 2px solid transparent; padding: 15px; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
+        .admin-tab-btn.active { background: var(--bg-card); color: var(--primary); border-color: var(--primary); box-shadow: 0 8px 24px rgba(2, 132, 199, 0.15); transform: translateY(-2px); }
+
+        .search-flex { display: flex; gap: 10px; align-items: center; flex-wrap: wrap;}
+        .item-search { padding: 16px 22px; border-radius: 16px; font-size: 15px; flex: 1; min-width: 200px;}
+
+        .add-custom-btn { background: #8b5cf6; color: white; border: none; padding: 16px 20px; border-radius: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; flex-shrink: 0; white-space: nowrap; box-shadow: 0 6px 16px rgba(139, 92, 246, 0.25);}
+        .add-custom-btn:active { transform: scale(0.92); box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2); }
+
+        /* Horizontal Scroll Tabs */
+        .tabs-wrapper { display: flex; align-items: center; gap: 5px; margin-top: 15px; }
+        .scroll-arrow { background: var(--tab-bg); color: var(--text-main); border: none; border-radius: 12px; width: 36px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; font-weight: bold; flex-shrink: 0; transition: background-color 0.2s ease; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);}
+        .scroll-arrow:active { background: var(--border); transform: scale(0.95); }
+        [data-theme="dark"] .scroll-arrow { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05); }
+        
+        .tabs { display: flex; gap: 10px; padding: 5px 0; overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth; flex: 1;}
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab { border: none; padding: 14px 26px; border-radius: 50px; background: var(--tab-bg); color: var(--text-main); font-weight: 600; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; font-size: 15px;}
+        .tab.active { background: var(--accent); color: white; box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3); transform: translateY(-2px);}
+        
+        .tab.review { background: var(--review-bg); color: #d97706; }
+        .tab.review.active { background: #f59e0b; color: white; box-shadow: 0 6px 16px rgba(245, 158, 11, 0.3); border-color: transparent;}
+        .tab-badge { display: inline-flex; align-items: center; justify-content: center; background: #ef4444; color: white; border-radius: 50px; font-size: 11px; font-weight: 800; padding: 2px 7px; margin-left: 6px; min-width: 20px; line-height: 1.4; vertical-align: middle; box-shadow: 0 2px 6px rgba(239,68,68,0.35); }
+        .tab.review.active .tab-badge { background: white; color: #f59e0b; }
+        [data-theme="dark"] .tab.review { color: #fcd34d; }
+
+        .table-responsive { width: 100%; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; background: var(--bg-card); padding-bottom: 10px; transition: background-color 0.3s ease, border-color 0.3s ease;}
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid var(--border); padding: 20px 15px; text-align: center; vertical-align: middle; transition: border-color 0.3s ease;}
+        th { background: transparent; font-weight: 600; color: var(--text-light); text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; border-bottom-width: 2px;}
+        tr { transition: background-color 0.3s ease; animation: fadeInRow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) both; background: transparent; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: var(--tab-bg); }
+        .selected-row { background-color: var(--row-highlight) !important; border-left: 4px solid var(--accent); }
+        .menu-selected-row { background-color: #f3e8ff !important; border-left: 4px solid #7c3aed; }
+        [data-theme="dark"] .menu-selected-row { background-color: rgba(124, 58, 237, 0.15) !important; }
+        
+        .pill-toggle { display: inline-flex; background: var(--stepper-bg); border-radius: 50px; padding: 4px; border: none; cursor: pointer; align-items: center; justify-content: center; transition: background-color 0.3s ease, box-shadow 0.3s ease; box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);}
+        .pill-toggle span { padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--text-light); border-radius: 50px; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; user-select: none; }
+        .pill-toggle span.active { background: var(--bg-card); color: var(--primary); box-shadow: 0 2px 10px rgba(0,0,0,0.08); transform: scale(1.05); }
+
+        .stepper { display: inline-flex; align-items: center; background: var(--stepper-bg); border-radius: 50px; padding: 5px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.03); transition: background-color 0.3s ease;}
+        .stepper button { background: var(--bg-card); color: var(--text-main); border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 20px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .stepper button:active { transform: scale(0.85); background: var(--primary); color: white; }
+        .stepper input { width: 50px; text-align: center; border: none; background: transparent; padding: 0; font-size: 17px; font-weight: 700; color: var(--primary); box-shadow: none; transition: color 0.3s ease;}
+        .stepper input:focus { outline: none; }
+
+        .action-buttons { position: sticky; bottom: 25px; display: flex; flex-direction: row; gap: 15px; margin-top: 30px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 15px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); z-index: 100; border: 1px solid rgba(0,0,0,0.05); transition: background-color 0.3s ease, border-color 0.3s ease;}
+        [data-theme="dark"] .action-buttons { background: rgba(30, 41, 59, 0.9); border-color: rgba(255,255,255,0.05); box-shadow: 0 15px 40px rgba(0,0,0,0.5);}
+        .submit-btn { flex: 2; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; border: none; padding: 20px; border-radius: 16px; font-size: 18px; font-weight: 700; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 6px 20px rgba(2, 132, 199, 0.25); }
+        .submit-btn:active { transform: scale(0.96) translateY(2px); box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2); }
+        .reset-btn { flex: 1; background: #fee2e2; color: #ef4444; border: none; padding: 20px; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; }
+        .reset-btn:active { transform: scale(0.92); background: #fca5a5; }
+        [data-theme="dark"] .reset-btn { background: rgba(220, 38, 38, 0.2); color: #fca5a5; }
+
+        .admin-list-container { display: flex; flex-direction: column; gap: 12px; margin-top: 15px;}
+        .admin-item-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; animation: fadeInRow 0.4s both; }
+        .admin-item-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.05); border-color: var(--primary); }
+        .admin-item-code { font-weight: 800; color: var(--primary); font-size: 16px; width: 40px; text-align: center; background: var(--tab-bg); padding: 8px; border-radius: 12px; transition: background-color 0.3s ease;}
+        .admin-item-details { flex: 1; display: flex; flex-direction: column; gap: 2px; text-align: left;}
+        .admin-item-name-en { font-weight: 600; font-size: 15px; color: var(--text-main); transition: color 0.3s ease;}
+        .admin-item-name-te { font-weight: 500; font-size: 13px; color: var(--text-light); transition: color 0.3s ease;}
+        .admin-item-category { font-size: 11px; font-weight: 700; color: var(--accent); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 4px 10px; border-radius: 50px; align-self: flex-start; margin-top: 6px; }
+        .admin-edit-btn { background: #fef9c3; color: #d97706; border: 1px solid #fde047; padding: 10px 16px; border-radius: 14px; font-weight: 700; font-size: 13px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease; box-shadow: 0 4px 10px rgba(217, 119, 6, 0.1); display: flex; align-items: center; gap: 6px;}
+        .admin-edit-btn:active { transform: scale(0.9); box-shadow: 0 2px 5px rgba(217, 119, 6, 0.1); }
+        [data-theme="dark"] .admin-edit-btn { background: rgba(217, 119, 6, 0.15); color: #fcd34d; border-color: rgba(253, 224, 71, 0.3);}
+
+        .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background-color: #334155; color: white; padding: 16px 32px; border-radius: 50px; font-size: 15px; font-weight: 600; box-shadow: 0 15px 30px rgba(0,0,0,0.3); z-index: 10000; opacity: 0; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); display: flex; align-items: center; gap: 10px; pointer-events: none; text-align: center;}
+        .toast-container.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+        .toast-success { background-color: #10b981; }
+        .toast-error { background-color: #ef4444; }
+
+        .global-loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); z-index: 99999; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; opacity: 0; transition: opacity 0.3s ease;}
+        .global-loader.active { display: flex; opacity: 1; }
+        .spinner { width: 60px; height: 60px; border: 6px solid rgba(255,255,255,0.2); border-top-color: #38bdf8; border-radius: 50%; animation: spin 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite; margin-bottom: 20px;}
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .confirm-modal-content { background: var(--bg-card); padding: 35px 30px; border-radius: 32px; width: 90%; max-width: 400px; box-shadow: 0 24px 48px rgba(0,0,0,0.4); color: var(--text-main); text-align: center; animation: bouncyPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; display: flex; flex-direction: column; align-items: center; transition: background-color 0.3s ease, color 0.3s ease;}
+        .confirm-icon { font-size: 50px; margin-bottom: 15px; }
+        .confirm-title { font-size: 22px; font-weight: 700; margin: 0 0 10px 0; }
+        .confirm-msg { font-size: 15px; color: var(--text-light); margin-bottom: 30px; line-height: 1.5; transition: color 0.3s ease;}
+        .confirm-btn-wrap { display: flex; gap: 15px; width: 100%; }
+        .btn-cancel { flex: 1; background: var(--tab-bg); color: var(--text-main); border: none; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; }
+        .btn-cancel:active { transform: scale(0.95); background: var(--border);}
+        .btn-confirm { flex: 1; border: none; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; color: white; transition: transform 0.2s ease; box-shadow: 0 6px 20px rgba(0,0,0,0.15);}
+        .btn-confirm:active { transform: scale(0.95); }
+        .btn-danger { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+        .btn-warning { background: linear-gradient(135deg, #f59e0b, #b45309); }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; opacity: 0; animation: fadeInRow 0.3s forwards;}
+        .map-modal-content { background: var(--bg-card); padding: 30px; border-radius: 32px; width: 100%; max-width: 500px; box-shadow: 0 24px 48px rgba(0,0,0,0.4); color: var(--text-main); animation: bouncyPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; max-height: 90vh; overflow-y: auto; transition: background-color 0.3s ease, color 0.3s ease;}
+        
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .modal-header h3 { margin: 0; font-size: 20px;}
+        .close-btn { background: var(--tab-bg); border: none; font-size: 20px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; color: var(--text-main); display:flex; align-items:center; justify-content:center; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);}
+        .close-btn:active { transform: scale(0.85); background: #fca5a5; color: #991b1b;}
+        
+        .map-container { position: relative; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+        #map { height: 350px; width: 100%; z-index: 1; }
+        
+        .find-me-btn { position: absolute; bottom: 20px; left: 10px; z-index: 1000; background: white; border: 2px solid rgba(0,0,0,0.1); border-radius: 12px; width: 48px; height: 48px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .find-me-btn:active { background: #f0f0f0; transform: scale(0.85); }
+
+        .map-search-wrap { display: flex; gap: 8px; margin-bottom: 15px; position: relative; }
+        .map-search-wrap input { flex: 1; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-main); font-size: 15px; transition: 0.3s; }
+        .map-search-wrap input:focus { border-color: var(--primary); outline: none; box-shadow: none; transform: none;}
+        .map-search-wrap button { padding: 0 16px; border-radius: 12px; background: var(--primary); color: white; border: none; cursor: pointer; font-size: 18px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .map-search-wrap button:active { transform: scale(0.9); }
+        
+        .map-search-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg-card); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 200px; overflow-y: auto; z-index: 2000; display: none; margin-top: 5px; border: 1px solid var(--border); padding: 0; list-style: none; }
+        .map-search-dropdown li { padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 14px; color: var(--text-main); transition: 0.2s;}
+        .map-search-dropdown li:hover { background: var(--row-hover); padding-left: 20px;}
+
+        .history-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.02); opacity: 0; animation: slideUpFade 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; transition: background-color 0.3s ease, border-color 0.3s ease;}
+        .hc-header { display: flex; justify-content: space-between; padding: 20px 25px; background: var(--tab-bg); border-bottom: 1px solid var(--border); transition: background-color 0.3s ease, border-color 0.3s ease;}
+        .hc-header strong { font-size: 17px; color: var(--primary); }
+        .hc-body { padding: 20px 25px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-start;}
+        .hc-footer { padding: 15px 25px; background: var(--bg-card); border-top: 1px dashed var(--border); display: flex; gap: 12px; justify-content: flex-end; transition: background-color 0.3s ease, border-color 0.3s ease;}
+        .pdf-pill { display: inline-flex; align-items: center; background: #fef2f2; color: #dc2626; border: none; padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; text-decoration: none; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;}
+        [data-theme="dark"] .pdf-pill { background: rgba(220, 38, 38, 0.15); color: #fca5a5; }
+        .master-pdf-pill { background: #f3e8ff !important; color: #7c3aed !important; }
+        [data-theme="dark"] .master-pdf-pill { background: rgba(124, 58, 237, 0.15) !important; color: #c4b5fd !important; }
+        .hc-btn { padding: 10px 20px; text-decoration: none; border-radius: 12px; font-size: 14px; font-weight: 700; transition: transform 0.2s ease; cursor: pointer; border: none;}
+        .date-filter-bar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
+        .date-filter-bar input[type="date"] { padding: 12px 16px; border-radius: 14px; font-size: 14px; flex: 1; min-width: 130px; border: 2px solid transparent; background: var(--tab-bg); color: var(--text-main); font-family: inherit; font-weight: 500; transition: border-color 0.2s ease, background 0.2s ease; }
+        .date-filter-bar input[type="date"]:focus { border-color: var(--primary); background: var(--bg-card); outline: none; }
+        .date-filter-bar label { font-size: 12px; font-weight: 700; color: var(--text-light); white-space: nowrap; }
+        .date-clear-btn { background: #fee2e2; color: #ef4444; border: none; border-radius: 14px; padding: 12px 18px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: transform 0.2s ease; }
+        .date-clear-btn:active { transform: scale(0.92); }
+        [data-theme="dark"] .date-clear-btn { background: rgba(220,38,38,0.2); color: #fca5a5; }
+        .history-result-count { font-size: 13px; font-weight: 600; color: var(--text-light); margin-bottom: 12px; }
+        
+        .pending-clear-btn { background: #fef08a; color: #a16207; border: 1px solid #fde047; border-radius: 12px; padding: 10px 16px; font-size: 13px; font-weight: 700; cursor: pointer; margin-bottom: 15px; display: inline-flex; align-items: center; gap: 8px;}
+
+        /* Scroll To Top Button */
+        .scroll-top-btn { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 20px rgba(2, 132, 199, 0.4); z-index: 9900; transition: all 0.3s ease; opacity: 0; pointer-events: none; transform: translateY(20px);}
+        .scroll-top-btn.visible { opacity: 1; pointer-events: auto; transform: translateY(0);}
+        .scroll-top-btn:active { transform: scale(0.9) !important; }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px; margin: 70px 0 10px 0; width: 98%; border-radius: 24px; border: none;}
+            .user-name { display: none !important; }
+            .top-nav { padding: 8px 10px; }
+            .nav-title { display: none; }
+            .nav-left img { width: 34px; height: 34px; border-radius: 8px; }
+            .nav-right { gap: 6px; justify-content: flex-end; width: auto; flex-wrap: nowrap;}
+            .nav-icon-btn { font-size: 12px; padding: 0 10px; height: 36px; border-radius: 10px;}
+            .nav-icon-btn.icon-only { width: 36px; height: 36px; font-size: 16px; }
+            .zoom-controls { height: 36px; border-radius: 10px;}
+            .zoom-btn { width: 32px; font-size: 18px; }
+            .card-header { flex-direction: column; padding: 20px 15px; border-radius: 20px; }
+            .left-col, .right-col { display: none; }
+            .mid-col { padding: 0; width: 100%; }
+            .title { font-size: 26px; }
+            .address-box { font-size: 14px; padding: 10px; width: 100%; box-sizing: border-box;}
+            .row { flex-direction: column; gap: 12px; margin-top: 12px; }
+            .row > div { width: 100%; }
+            input, select { font-size: 16px; padding: 16px; }
+            .control-bar { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; top: 52px; padding-top: 10px;}
+            .action-buttons { flex-direction: row; bottom: 10px; padding: 8px; border-radius: 18px; gap: 8px; margin-top: 15px;}
+            .submit-btn { padding: 12px 10px; font-size: 15px; flex: 2.5; border-radius: 14px;}
+            .reset-btn { padding: 12px 5px; font-size: 13px; flex: 1; border-radius: 14px;}
+            th, td { padding: 16px 10px; font-size: 14px; }
+            .admin-tabs { flex-direction: column; gap: 10px;}
+            .admin-item-card { padding: 12px 15px; gap: 10px; }
+            .admin-item-code { width: 30px; font-size: 14px; padding: 6px; }
+            .admin-item-name-en { font-size: 14px; }
+            .admin-item-name-te { font-size: 12px; }
+            .admin-edit-btn { padding: 8px 12px; font-size: 12px; }
+            .scroll-top-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 20px;}
+        }
+
+        /* --- OFFLINE SCREEN (ported from the old PWA shell) --- */
+        #offlineScreen { display: none; flex-direction: column; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 99999; text-align: center; padding: 20px; box-sizing: border-box; transition: background-color 0.3s ease;}
+        #offlineScreen img { width: 110px; border-radius: 20px; margin-bottom: 20px; filter: grayscale(100%); opacity: 0.85; }
+        #offlineScreen .offline-title { color: #dc2626; font-size: 19px; font-weight: 800; }
+        #offlineScreen .offline-sub { color: var(--text-light); font-size: 14px; margin-top: 8px; }
+        #offlineScreen .retry-btn { margin-top: 22px; background: var(--accent); color: white; border: none; padding: 14px 26px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
+
 <body>
-    
-    <div id="splash-screen">
-        <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Vanga Satyanarayana" class="splash-logo">
-        <div class="spinner"></div>
-        <div class="status-text" id="status-message">Starting Vantamesthri...</div>
+
+<div id="offlineScreen">
+    <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Offline">
+    <div class="offline-title">You are Offline</div>
+    <div class="offline-sub">Please check your internet connection.</div>
+    <button class="retry-btn" onclick="window.location.reload()">Try Again</button>
+</div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Go to top">⬆</button>
+
+<div id="appToast" class="toast-container"></div>
+
+<div id="globalLoader" class="global-loader">
+    <div class="spinner"></div>
+    <div class="pulse-text" id="loaderText">Generating PDFs...</div>
+</div>
+
+<div id="customConfirmModal" class="modal-overlay">
+    <div class="confirm-modal-content">
+        <div class="confirm-icon" id="confirmIcon">⚠️</div>
+        <h3 class="confirm-title" id="confirmTitle">Confirm Action</h3>
+        <p class="confirm-msg" id="confirmMessage">Are you sure you want to do this?</p>
+        <div class="confirm-btn-wrap">
+            <button id="confirmCancelBtn" class="btn-cancel">Cancel</button>
+            <button id="confirmOkBtn" class="btn-confirm btn-danger">OK</button>
+        </div>
+    </div>
+</div>
+
+<div id="loginView">
+    <div class="login-card">
+        <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Logo">
+        <h2>Secure Login</h2>
+        <input type="email" id="loginEmail" class="login-input" placeholder="Email Address" onkeypress="if(event.key === 'Enter') document.getElementById('loginPass').focus()">
+        <input type="password" id="loginPass" class="login-input" placeholder="Password" onkeypress="if(event.key === 'Enter') doLogin()">
+        <button class="login-btn" id="loginBtn" onclick="doLogin()">Login</button>
+    </div>
+</div>
+
+<div id="appWrapper">
+    <div class="top-nav">
+        <div class="nav-left">
+            <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Logo">
+            <span class="nav-title">Vanta Sarukulu</span>
+        </div>
+        <div class="nav-right">
+            <button class="nav-icon-btn icon-only" onclick="refreshApp()" title="Refresh App Data">🔃</button>
+            
+            <div class="notif-wrapper" id="notifBellWrap" style="display:none;">
+                <button class="nav-icon-btn icon-only" onclick="openNotifications()" title="Notifications">🔔</button>
+                <div class="notif-badge" id="notifBadge" style="display:none;">0</div>
+            </div>
+
+            <button class="nav-icon-btn" onclick="toggleLang()" id="topLangBtn" title="Toggle Language">English</button>
+            <button class="nav-icon-btn icon-only" onclick="toggleTheme()" id="topThemeBtn" title="Toggle Theme">🌙</button>
+            
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="changeZoom(0.1)">+</button>
+                <button class="zoom-btn" onclick="changeZoom(-0.1)">-</button>
+            </div>
+            
+            <span class="user-name" id="userNameDisplay">👤 User</span>
+            <button class="nav-icon-btn icon-only logout-btn" onclick="logout()" title="Logout">🚪</button>
+        </div>
     </div>
 
-    <div id="offline-screen">
-        <img src="https://i.postimg.cc/kXGhXSwf/Vanga_Satyanarayana_వ_ట_మ_స_త_ర_LOGO_1_1.png" alt="Offline Logo" class="splash-logo" style="animation: none; filter: grayscale(100%);">
-        <div class="status-text" style="color: #dc2626; font-size: 18px;">You are Offline</div>
-        <div class="status-text" style="font-size: 14px; margin-top: 10px;">Please check your internet connection.</div>
-        <button class="retry-btn" onclick="window.location.reload()">Try Again</button>
+    <div id="zoom-wrapper">
+        <div class="container">
+
+            <div class="card-header">
+                <div class="left-col"><img src="https://i.postimg.cc/wT3cK1NL/Lord_Ganesha.png" alt="Ganesha"></div>
+                <div class="mid-col">
+                    <h1 class="title">వంగా సత్యనారాయణ, వంటమేస్త్రి</h1>
+                    <div class="subtitle">
+                        అన్నిరకముల శుభకార్యములకు వంటలు రుచిగా చేయబడును.<br>
+                        <span style="font-size: 17px; font-weight: 800; color: #dc2626;">క్యాటరింగ్ చేయబడును.</span><br>
+                        సప్లయిర్స్, కూలీలను ఏర్పాటు చేయబడును.
+                    </div>
+                    <div class="address-box">మసీద్ ఎదురుగా, బి.సి.కాలనీ కొత్తగూడెంరోడ్<br>పెనుబల్లి (వి.యం.బంజరు)<div class="phone">Cell: 9989962185, 9848616193</div></div>
+                </div>
+                <div class="right-col"><img src="https://i.postimg.cc/02rdgzSK/lord_sai_baba.png" alt="Sai Baba"></div>
+            </div>
+
+            <div id="homeView" class="view-section active">
+                <div class="home-menu">
+                    <button class="menu-btn" onclick="startNewOrder()" id="btnNewOrder">📝 కొత్త ఆర్డర్</button>
+                    <button class="menu-btn history" onclick="loadHistory()" id="btnHistory">🕒 ఆర్డర్ చరిత్ర</button>
+                    <button class="menu-btn admin" onclick="loadAdminPanel()" id="btnAdmin">⚙️ ఇన్వెంటరీ అడ్మిన్</button>
+                </div>
+            </div>
+
+            <div id="orderView" class="view-section">
+                <button class="back-btn" onclick="goBackSafe()" data-i18n="back">← వెనుకకు</button>
+                
+                <div id="editBadge" style="display:none; background: #fffbeb; color: #d97706; padding: 15px; border-radius: 16px; font-weight:bold; margin-bottom:20px; text-align:center; border: 1px solid #fcd34d; animation: bouncyPop 0.5s;">
+                    ✏️ EDITING MODE: Updates will overwrite the existing order.
+                </div>
+
+                <div class="row">
+                    <div><input id="person" placeholder="పేరు" oninput="saveDraft()"></div>
+                    <div><input id="occasion" placeholder="సందర్భం" oninput="saveDraft()"></div>
+                    <div><input type="date" id="date" onchange="saveDraft()"></div>
+                </div>
+                <div class="row">
+                    <div style="display:flex; width: 100%;">
+                        <input id="place" placeholder="ప్రదేశం / మ్యాప్" style="flex:1;" oninput="saveDraft()">
+                        <button type="button" class="geo-btn" onclick="openMap()" title="Pick Location on Map">📍</button>
+                    </div>
+                    <div><input id="mobile" placeholder="మొబైల్ నంబర్" type="tel" oninput="saveDraft()"></div>
+                </div>
+                <div class="row">
+                    <div><input type="number" id="guestCount" placeholder="అతిథుల సంఖ్య" oninput="saveDraft()"></div>
+                </div>
+
+                <div class="control-bar">
+                    <div class="admin-tabs" id="orderModeToggles" style="margin-bottom: 15px;">
+                        <button class="admin-tab-btn active" id="modeMenuToggle" onclick="setOrderMode('Menu')" data-i18n="modeMenu">🍽️ మెనూ ఎంపిక</button>
+                        <button class="admin-tab-btn" id="modeGroceryToggle" onclick="setOrderMode('Groceries')" data-i18n="modeGroceries">🛒 సరుకుల జాబితా</button>
+                    </div>
+
+                    <div class="search-flex">
+                        <input type="text" id="innerItemSearch" class="item-search" placeholder="🔍 వస్తువులను వెతకండి..." oninput="renderItems()">
+                        <button class="add-custom-btn" id="addBtnDynamic" onclick="openAddModal()">+ కొత్త వంటకం</button>
+                    </div>
+                    
+                    <div class="tabs-wrapper" id="menuTabsWrapper">
+                        <button class="scroll-arrow" onclick="document.getElementById('menuTabs').scrollBy({left: -150, behavior: 'smooth'})">❮</button>
+                        <div class="tabs" id="menuTabs">
+                            <button class="tab active" onclick="selectTab('All',event)" data-i18n="tabAll">అన్ని</button>
+                            <button class="tab review" onclick="selectTab('Review',event)" data-i18n="tabReview">⭐ ఎంచుకున్నవి<span class="tab-badge review-badge" style="display:none;">0</span></button>
+                            <button class="tab" onclick="selectTab('Sweets & Desserts',event)" data-i18n="tabSweets">స్వీట్స్</button>
+                            <button class="tab" onclick="selectTab('Snacks & Hot Items',event)" data-i18n="tabSnacks">స్నాక్స్</button>
+                            <button class="tab" onclick="selectTab('Tiffins',event)" data-i18n="tabTiffins">టిఫిన్స్</button>
+                            <button class="tab" onclick="selectTab('Veg Curries & Dals',event)" data-i18n="tabVegCurries">వెజ్ కర్రీస్</button>
+                            <button class="tab" onclick="selectTab('Chutneys & Podis',event)" data-i18n="tabChutneys">పచ్చళ్లు</button>
+                            <button class="tab" onclick="selectTab('Non-Veg',event)" data-i18n="tabNonVeg">నాన్-వెజ్</button>
+                        </div>
+                        <button class="scroll-arrow" onclick="document.getElementById('menuTabs').scrollBy({left: 150, behavior: 'smooth'})">❯</button>
+                    </div>
+
+                    <div class="tabs-wrapper" id="groceryTabsWrapper" style="display:none;">
+                        <button class="scroll-arrow" onclick="document.getElementById('groceryTabs').scrollBy({left: -150, behavior: 'smooth'})">❮</button>
+                        <div class="tabs" id="groceryTabs">
+                            <button class="tab active" onclick="selectTab('All',event)" data-i18n="tabAll">అన్ని</button>
+                            <button class="tab review" onclick="selectTab('Review',event)" data-i18n="tabReview">⭐ ఎంచుకున్నవి<span class="tab-badge review-badge" style="display:none;">0</span></button>
+                            <button class="tab" onclick="selectTab('Groceries',event)" data-i18n="tabGroceries">కిరాణా</button>
+                            <button class="tab" onclick="selectTab('Vegetables',event)" data-i18n="tabVegetables">కూరగాయలు</button>
+                            <button class="tab" onclick="selectTab('Non-Veg',event)" data-i18n="tabNonVeg">నాన్-వెజ్</button>
+                            <button class="tab" onclick="selectTab('Tent Items',event)" data-i18n="tabTent">టెంట్</button>
+                            <button class="tab" onclick="selectTab('Other Items',event)" data-i18n="tabOther">ఇతర</button>
+                        </div>
+                        <button class="scroll-arrow" onclick="document.getElementById('groceryTabs').scrollBy({left: 150, behavior: 'smooth'})">❯</button>
+                    </div>
+                </div>
+
+                <div id="itemsSection"></div>
+
+                <div class="action-buttons">
+                    <button class="submit-btn" onclick="submitForm()" id="btnGenerate">PDF సృష్టించండి</button>
+                    <button class="reset-btn" onclick="clearForm()" id="btnClear">🗑️ క్లియర్</button>
+                </div>
+            </div>
+
+            <div id="historyView" class="view-section">
+                <button class="back-btn" onclick="goBackSafe()" data-i18n="back">← వెనుకకు</button>
+                
+                <button id="clearPendingBtn" class="pending-clear-btn" style="display:none;" onclick="exitPendingFilter()">✕ Viewing Pending Only - Click to show all</button>
+                
+                <input type="text" id="searchInput" class="item-search" style="margin-bottom: 12px;" placeholder="🔍 వెతకండి..." onkeyup="filterHistory(true)">
+                <div class="date-filter-bar">
+                    <label>📅 నుండి:</label>
+                    <input type="date" id="filterDateFrom" onchange="filterHistory(true)">
+                    <label>వరకు:</label>
+                    <input type="date" id="filterDateTo" onchange="filterHistory(true)">
+                    <button class="date-clear-btn" onclick="clearDateFilter()">✕ క్లియర్</button>
+                </div>
+                <div id="historyResultCount" class="history-result-count"></div>
+                <div id="historyData"></div>
+            </div>
+
+            <div id="adminView" class="view-section">
+                <button class="back-btn" onclick="goBackSafe()" data-i18n="back">← వెనుకకు</button>
+                <h2 style="margin-top:0; color:var(--text-main); font-weight:800;">⚙️ Master Inventory Admin</h2>
+                
+                <div class="admin-tabs">
+                    <button class="admin-tab-btn active" id="adminItemsToggle" onclick="setAdminTab('Items')">🛒 Manage Groceries</button>
+                    <button class="admin-tab-btn" id="adminMenuToggle" onclick="setAdminTab('Menu')">🍽️ Manage Menu</button>
+                </div>
+
+                <div class="search-flex" style="margin-bottom: 20px;">
+                    <input type="text" id="adminSearchInput" class="item-search" placeholder="🔍 Search Database..." onkeyup="renderAdminItems()">
+                    <button class="add-custom-btn" id="adminAddBtn" onclick="openAdminEditModal('', '', '', '', '', '', '')" style="background:var(--accent);">+ Add Item</button>
+                </div>
+                <div id="adminItemsData"></div>
+            </div>
+
+        </div>
     </div>
+</div>
+
+<div id="mapModal" class="modal-overlay">
+    <div class="map-modal-content">
+        <div class="modal-header">
+            <h3 id="mapTitle">స్థానాన్ని ఎంచుకోండి</h3>
+            <button class="close-btn" onclick="closeMap()">✕</button>
+        </div>
+        <div class="map-search-wrap">
+            <input type="text" id="mapSearchInput" placeholder="ప్రదేశాలు లేదా నగరాలను వెతకండి..." onkeypress="handleMapKey(event)">
+            <button onclick="searchMapLocation()">🔍</button>
+            <ul id="mapSearchDropdown" class="map-search-dropdown"></ul>
+        </div>
+        <div class="map-container">
+            <div id="map"></div>
+            <button type="button" onclick="goToCurrentLocation()" class="find-me-btn" title="Go to My Location">🎯</button>
+        </div>
+        <button class="submit-btn" onclick="confirmLocation()" id="mapConfirm" style="margin-top: 20px; padding: 16px; width: 100%;">నిర్ధారించండి</button>
+    </div>
+</div>
+
+<div id="customItemModal" class="modal-overlay">
+    <div class="map-modal-content">
+        <div class="modal-header">
+            <h3 id="customTitle" style="font-size:18px;">కొత్త వస్తువు (Current Order Only)</h3>
+            <button class="close-btn" onclick="closeCustomModal()">✕</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:15px; margin-bottom: 25px;">
+            <input type="text" id="customName" placeholder="Item Name (e.g. Special Rice)">
+            <select id="customCategory">
+                <option value="Groceries">Groceries / కిరాణా</option>
+                <option value="Vegetables">Vegetables / కూరగాయలు</option>
+                <option value="Non-Veg">Non-Veg / నాన్-వెజ్</option>
+                <option value="Tent Items">Tent Items / టెంట్ సామాగ్రి</option>
+                <option value="Other Items" selected>Other Items / ఇతర సామాన్లు</option>
+            </select>
+            <select id="customUnit">
+                <option value="">-- No Unit (ఖాళీ) --</option>
+                <option value="kg">kg / కేజీ (Weight)</option>
+                <option value="Nos">Nos / నెం (Quantity)</option>
+                <option value="Packets">Packets / ప్యాకెట్లు</option>
+                <option value="Liters">Liters / లీటర్లు</option>
+            </select>
+        </div>
+        <button class="submit-btn" onclick="saveCustomItem()" style="padding: 18px; width: 100%;">Add Item to Cart</button>
+    </div>
+</div>
+
+<div id="customMenuModal" class="modal-overlay">
+    <div class="map-modal-content">
+        <div class="modal-header">
+            <h3 style="font-size:18px; color:#7c3aed;">కొత్త వంటకం (Menu Dish)</h3>
+            <button class="close-btn" onclick="closeMenuModal()">✕</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:15px; margin-bottom: 25px;">
+            <input type="text" id="customMenuName" placeholder="Dish Name (e.g. Special Chicken 65)">
+            <select id="customMenuCategory">
+                <option value="Sweets & Desserts">Sweets / స్వీట్స్</option>
+                <option value="Snacks & Hot Items">Snacks / స్నాక్స్ & హాట్</option>
+                <option value="Tiffins">Tiffins / టిఫిన్స్</option>
+                <option value="Veg Curries & Dals">Veg / వెజ్ కర్రీస్</option>
+                <option value="Chutneys & Podis">Chutneys / పచ్చళ్లు</option>
+                <option value="Non-Veg" selected>Non-Veg / నాన్-వెజ్</option>
+            </select>
+        </div>
+        <button class="submit-btn" style="background:#7c3aed; padding:18px; width:100%; box-shadow:0 6px 16px rgba(124, 58, 237, 0.3);" onclick="saveCustomMenu()">Add Dish to Menu</button>
+    </div>
+</div>
+
+<div id="adminEditModal" class="modal-overlay">
+    <div class="map-modal-content">
+        <div class="modal-header">
+            <h3 style="font-size:18px;">✏️ Edit Master Database</h3>
+            <button class="close-btn" onclick="closeAdminEditModal()">✕</button>
+        </div>
+        
+        <div style="display:flex; flex-direction:column; gap:15px; margin-bottom: 25px;">
+            <input type="hidden" id="adminOldCode">
+            <input type="hidden" id="adminOldEn">
+
+            <div><label style="font-size:13px; font-weight:700; color:var(--text-light); margin-bottom:5px; display:block;">ID / Code</label>
+            <input type="text" id="adminCode" placeholder="Code"></div>
+            
+            <div><label style="font-size:13px; font-weight:700; color:var(--text-light); margin-bottom:5px; display:block;">English Name</label>
+            <input type="text" id="adminEn" placeholder="English Name"></div>
+            
+            <div><label style="font-size:13px; font-weight:700; color:var(--text-light); margin-bottom:5px; display:block;">Telugu Name</label>
+            <input type="text" id="adminTe" placeholder="Telugu Name"></div>
+            
+            <div><label style="font-size:13px; font-weight:700; color:var(--text-light); margin-bottom:5px; display:block;">Category</label>
+            <select id="adminCategory"></select></div>
+
+            <div id="adminUnitWrapper" style="display:flex; gap:15px;">
+                <div style="flex:1;"><label style="font-size:13px; font-weight:700; color:var(--text-light); margin-bottom:5px; display:block;">Unit (English)</label>
+                <select id="adminUnitEn"></select></div>
+                <div style="flex:1;"><label style="font-size:13px; font-weight:700; color:var(--text-light); margin-bottom:5px; display:block;">Unit (Telugu)</label>
+                <select id="adminUnitTe"></select></div>
+            </div>
+        </div>
+
+        <button class="submit-btn" id="btnAdminSave" onclick="submitAdminEdit()" style="padding: 18px; width: 100%;">Save to Google Sheets</button>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" id="leafletScript" defer></script>
+
+<script>
+/* ============================================================
+   GOOGLE.SCRIPT.RUN SHIM
+   ------------------------------------------------------------
+   This page used to be served by Apps Script's HtmlService,
+   where google.script.run is a privileged bridge Google injects
+   automatically. Now that this file is hosted as a static page
+   (e.g. on GitHub Pages), that bridge doesn't exist - so we
+   replicate its exact chainable API here, backed by fetch()
+   calls to the deployed Apps Script web app's /exec URL.
+
+   Every existing call site below (google.script.run.withSuccess
+   Handler(...).getItems(), etc.) keeps working completely
+   unchanged, because they're all wrapped in
+   `if (typeof google !== 'undefined')`.
+
+   GET routes map to Code.gs's doGet() action dispatcher.
+   POST routes map to doPost(), sent as
+   application/x-www-form-urlencoded - not JSON - specifically
+   because that content type doesn't trigger a CORS preflight,
+   so no changes are needed on the Apps Script side.
+   ============================================================ */
+(function() {
+  var GAS_EXEC_URL = "https://script.google.com/macros/s/AKfycbxWI0NMU_MhBYGUJ9Ez-KQO2p-oOo3jXWskMh7Km94xan5gApgEBHlLbTDbic4HQ3CJ/exec";
+
+  var ROUTES = {
+    getItems:      { method: 'GET',  action: 'getItems' },
+    getMenuItems:  { method: 'GET',  action: 'getMenuItems' },
+    getHistory:    { method: 'GET',  action: 'getHistory' },
+    verifyLogin:   { method: 'POST', action: 'verifyLogin', argNames: ['email', 'password'] },
+    saveAdminItem: { method: 'POST', action: 'saveAdminItem', payload: true },
+    createPDF:     { method: 'POST', action: 'createPDF', payload: true }
+  };
+
+  function makeRunner() {
+    var onSuccess = function() {};
+    var onFailure = function(err) { console.error('gasRun error:', err); };
+
+    var runner = {
+      withSuccessHandler: function(fn) { onSuccess = fn; return runner; },
+      withFailureHandler: function(fn) { onFailure = fn; return runner; }
+    };
+
+    Object.keys(ROUTES).forEach(function(name) {
+      runner[name] = function() {
+        var args = Array.prototype.slice.call(arguments);
+        var route = ROUTES[name];
+        var url = GAS_EXEC_URL;
+        var fetchOpts;
+
+        if (route.method === 'GET') {
+          url += '?action=' + route.action;
+          fetchOpts = { method: 'GET' };
+        } else {
+          var form = new URLSearchParams();
+          form.set('action', route.action);
+          if (route.payload) {
+            form.set('payload', JSON.stringify(args[0]));
+          } else if (route.argNames) {
+            route.argNames.forEach(function(argName, i) { form.set(argName, args[i]); });
+          }
+          fetchOpts = { method: 'POST', body: form };
+        }
+
+        fetch(url, fetchOpts)
+          .then(function(res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(function(data) { onSuccess(data); })
+          .catch(function(err) { onFailure(err); });
+      };
+    });
+
+    return runner;
+  }
+
+  // Mirrors google.script.run's real behavior: every access to .run
+  // returns a brand-new builder, so nested/concurrent calls (initData()
+  // chains three of these inside each other) never share handlers.
+  window.google = window.google || {};
+  window.google.script = {
+    get run() { return makeRunner(); }
+  };
+})();
+
+/* ============================================================
+   PWA: service worker registration, offline detection, and
+   app-shortcut (?view=new / ?view=history) handling. These used
+   to live in the separate shell index.html that wrapped this
+   page in an iframe; now that this page IS the app, they live
+   here instead.
+   ============================================================ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js').catch(function(err) {
+      console.log('ServiceWorker registration failed:', err);
+    });
+  });
+}
+
+function showOfflineScreen() { document.getElementById('offlineScreen').style.display = 'flex'; }
+function hideOfflineScreen() { document.getElementById('offlineScreen').style.display = 'none'; }
+window.addEventListener('online', hideOfflineScreen);
+window.addEventListener('offline', showOfflineScreen);
+if (!navigator.onLine) showOfflineScreen();
+
+// Captured once at load; applied after login (see showApp()) so the
+// "New Order" / "Order History" home-screen shortcuts actually do
+// something now that this page handles its own routing.
+var pendingShortcutView = new URLSearchParams(window.location.search).get('view');
+
+var allItems = [];
+var allMenuItems = [];
+var customItemsSaved = [];
+var customMenuSaved = []; 
+var orderMode = "Menu"; // Tracks if we are viewing Menu or Groceries
+var activeTab = "All";  // Tracks the active sub-tab
+var qtyStore = {};
+var menuStore = {}; 
+var unitStore = {};
+var globalHistoryData = [];
+var currentLang = 'te'; 
+var isSubmitting = false; 
+var editingRowId = null;
+var isGuestUser = false; 
+var viewPendingOnly = false; 
+var adminActiveTab = 'Items'; 
+
+var customItemCounter = 0;
+var customMenuCounter = 0; 
+var pdfTimeoutHandle = null;
+var leafletCssLoaded = false;
+
+window.addEventListener('scroll', function() {
+    var btn = document.getElementById('scrollTopBtn');
+    if (window.scrollY > 300) { btn.classList.add('visible'); } 
+    else { btn.classList.remove('visible'); }
+});
+
+function showToast(msg, type) {
+    var toast = document.getElementById('appToast');
+    toast.innerText = (type === 'success' ? '✅ ' : '⚠️ ') + msg;
+    toast.className = 'toast-container show ' + (type === 'success' ? 'toast-success' : 'toast-error');
+    setTimeout(function() { toast.classList.remove('show'); }, 4000);
+}
+
+function showConfirm(title, message, okText, icon, colorClass, onOk) {
+    var modal = document.getElementById('customConfirmModal');
+    document.getElementById('confirmTitle').innerText = title;
+    document.getElementById('confirmMessage').innerText = message;
+    document.getElementById('confirmIcon').innerText = icon;
     
-    <iframe id="appFrame" src="" allow="geolocation"></iframe>
+    var okBtn = document.getElementById('confirmOkBtn');
+    okBtn.innerText = okText;
+    okBtn.className = "btn-confirm " + colorClass;
+    modal.style.display = 'flex';
 
-    <script>
-        // PASTE YOUR GOOGLE APPS SCRIPT /EXEC LINK HERE
-        const baseAppsScriptUrl = "https://script.google.com/macros/s/AKfycbxWI0NMU_MhBYGUJ9Ez-KQO2p-oOo3jXWskMh7Km94xan5gApgEBHlLbTDbic4HQ3CJ/exec";
+    okBtn.onclick = function() {
+        modal.style.display = 'none';
+        if(onOk) onOk();
+    };
+    document.getElementById('confirmCancelBtn').onclick = function() {
+        modal.style.display = 'none';
+    };
+}
 
-        // 5. NEW: Check URL for Shortcuts (e.g. ?view=new)
-        const urlParams = new URLSearchParams(window.location.search);
-        const viewParam = urlParams.get('view') || '';
-        const finalAppsScriptUrl = baseAppsScriptUrl + (viewParam ? "?view=" + viewParam : "");
+function initData() {
+    if (typeof google !== 'undefined') {
+        google.script.run.withSuccessHandler(function(data) {
+            allItems = data;
+            google.script.run.withSuccessHandler(function(menuData) {
+                allMenuItems = menuData;
+                document.getElementById("date").valueAsDate = new Date();
+                loadDraft();
+                toggleLang(true);
+                renderItems();
+                loadHistorySilently(); 
+            }).getMenuItems();
+        }).getItems();
+    }
+}
 
-        const splashScreen = document.getElementById('splash-screen');
-        const offlineScreen = document.getElementById('offline-screen');
-        const appFrame = document.getElementById('appFrame');
-        const statusMessage = document.getElementById('status-message');
+function refreshApp() {
+    var loader = document.getElementById('globalLoader');
+    var loaderText = document.getElementById('loaderText');
+    loaderText.innerText = currentLang === 'te' ? "డేటా రిఫ్రెష్ అవుతోంది..." : "Refreshing Data...";
+    loader.classList.add('active');
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').then(reg => {
-                    console.log('ServiceWorker registered:', reg.scope);
-                }).catch(err => console.log('ServiceWorker failed:', err));
+    if (typeof google !== 'undefined') {
+        google.script.run.withSuccessHandler(function(data) {
+            allItems = data;
+            google.script.run.withSuccessHandler(function(menuData) {
+                allMenuItems = menuData;
+                google.script.run.withSuccessHandler(function(hData) {
+                    globalHistoryData = hData;
+                    loadDraft();
+                    updateNotificationBadge();
+                    if(document.getElementById('historyView').classList.contains('active')) filterHistory(true);
+                    if(document.getElementById('adminView').classList.contains('active')) renderAdminItems();
+                    if(document.getElementById('orderView').classList.contains('active')) renderItems();
+                    loader.classList.remove('active');
+                    showToast(currentLang === 'te' ? "డేటా విజయవంతంగా రిఫ్రెష్ అయింది!" : "Data refreshed successfully!", "success");
+                }).getHistory();
+            }).getMenuItems();
+        }).withFailureHandler(function(){ loader.classList.remove('active'); showToast("Error loading data", "error"); }).getItems();
+    } else {
+        setTimeout(function(){ loader.classList.remove('active'); }, 1000);
+    }
+}
+
+function loadHistorySilently() {
+    if(isGuestUser) return;
+    if (typeof google !== 'undefined') {
+        google.script.run.withSuccessHandler(function(data) {
+            globalHistoryData = data;
+            updateNotificationBadge();
+        }).getHistory();
+    }
+}
+
+function updateNotificationBadge() {
+    if (isGuestUser) return;
+    var pendingCount = globalHistoryData.filter(r => r.status === "Pending Admin").length;
+    var badge = document.getElementById('notifBadge');
+    if (badge) {
+        badge.innerText = pendingCount;
+        badge.style.display = pendingCount > 0 ? 'flex' : 'none';
+    }
+}
+
+function goBackSafe() {
+    if (isSubmitting) return;
+    var currentView = document.querySelector('.view-section.active').id;
+    if (currentView === 'orderView') {
+        var hasData = document.getElementById('person').value || document.getElementById('mobile').value || Object.keys(qtyStore).length > 0 || Object.keys(menuStore).length > 0;
+        if (hasData) {
+            var t = i18n[currentLang];
+            showConfirm(
+                currentLang === 'te' ? "గమనిక" : "Unsaved Data",
+                t.confirmBackMsg, t.btnLeave, "⚠️", "btn-warning",
+                function() { forceClearForm(); switchView('homeView'); }
+            );
+            return;
+        }
+    }
+    switchView('homeView');
+}
+
+window.history.pushState({ page: "vanta-app" }, "", "");
+window.addEventListener("popstate", function(event) {
+    window.history.pushState({ page: "vanta-app" }, "", "");
+    if (isSubmitting) return;
+    goBackSafe();
+});
+
+window.addEventListener('beforeunload', function (e) {
+    var hasData = document.getElementById('person').value || document.getElementById('mobile').value || Object.keys(qtyStore).length > 0 || Object.keys(menuStore).length > 0;
+    if (hasData && !isSubmitting) {
+        var confirmationMessage = 'You have unsaved data. Are you sure you want to leave?';
+        (e || window.event).returnValue = confirmationMessage;
+        return confirmationMessage;
+    }
+});
+
+var currentZoom = parseFloat(localStorage.getItem('vangaZoom') || '1.0');
+function changeZoom(step) {
+    currentZoom = Math.round((currentZoom + step) * 10) / 10;
+    if(currentZoom < 0.6) currentZoom = 0.6;
+    if(currentZoom > 1.8) currentZoom = 1.8;
+    document.getElementById('zoom-wrapper').style.zoom = currentZoom;
+    try { localStorage.setItem('vangaZoom', currentZoom.toString()); } catch(e) {}
+    showZoomPopup(Math.round(currentZoom * 100) + '%');
+}
+function applyStoredZoom() { document.getElementById('zoom-wrapper').style.zoom = currentZoom; }
+function showZoomPopup(text) {
+    var z = document.getElementById('zoomPopup');
+    if(!z) {
+        z = document.createElement('div');
+        z.id = 'zoomPopup';
+        z.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(15, 23, 42, 0.85);color:#fff;padding:15px 35px;border-radius:50px;font-size:28px;font-weight:800;z-index:999999;pointer-events:none;transition:opacity 0.2s ease-in-out;box-shadow:0 15px 30px rgba(0,0,0,0.3); backdrop-filter: blur(8px);';
+        document.body.appendChild(z);
+    }
+    z.innerText = text;
+    z.style.opacity = '1';
+    clearTimeout(z.timeout);
+    z.timeout = setTimeout(function(){ z.style.opacity = '0'; }, 1000);
+}
+
+var SESSION_DURATION_MS = 24 * 60 * 60 * 1000;
+function isSessionValid() {
+    var loginTime = localStorage.getItem('vangaLoginTime');
+    if (!loginTime) return false;
+    var elapsed = Date.now() - parseInt(loginTime, 10);
+    return elapsed < SESSION_DURATION_MS;
+}
+
+window.onload = function() {
+    var storedUser = localStorage.getItem('vangaLoggedInUser');
+    var storedAdmin = localStorage.getItem('vangaIsAdmin');
+    var storedGuest = localStorage.getItem('vangaIsGuest');
+
+    if (storedUser && isSessionValid()) {
+        showApp(storedUser, storedAdmin === 'true', storedGuest === 'true');
+    } else if (storedUser) {
+        localStorage.removeItem('vangaLoggedInUser');
+        localStorage.removeItem('vangaIsAdmin');
+        localStorage.removeItem('vangaIsGuest');
+        localStorage.removeItem('vangaLoginTime');
+    }
+};
+
+function doLogin() {
+    var em = document.getElementById('loginEmail').value.trim();
+    var pw = document.getElementById('loginPass').value.trim();
+    if(!em || !pw) return showToast("Please enter email and password.", "error");
+    
+    document.getElementById('loginBtn').innerText = "Verifying...";
+    document.getElementById('loginBtn').disabled = true;
+    
+    if (typeof google !== 'undefined') {
+        google.script.run
+            .withSuccessHandler(function(res) {
+                document.getElementById('loginBtn').disabled = false;
+                if(res.success) {
+                    localStorage.setItem('vangaLoggedInUser', res.name);
+                    localStorage.setItem('vangaIsAdmin', res.isAdmin);
+                    localStorage.setItem('vangaIsGuest', res.isGuest);
+                    localStorage.setItem('vangaLoginTime', Date.now().toString());
+                    showApp(res.name, res.isAdmin, res.isGuest);
+                } else {
+                    showToast(res.message, "error");
+                    document.getElementById('loginBtn').innerText = "Login";
+                }
+            })
+            .withFailureHandler(function(err) {
+                document.getElementById('loginBtn').disabled = false;
+                document.getElementById('loginBtn').innerText = "Login";
+                showToast("Login failed. Please try again.", "error");
+            })
+            .verifyLogin(em, pw);
+    }
+}
+
+function showApp(userName, isAdmin, isGuest) {
+    isGuestUser = isGuest;
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('appWrapper').style.display = 'block';
+    document.getElementById('userNameDisplay').innerHTML = "👤 " + userName;
+    
+    if (isGuestUser) {
+        document.getElementById('btnAdmin').style.display = 'none';
+        document.getElementById('btnHistory').style.display = 'none'; 
+        document.getElementById('notifBellWrap').style.display = 'none';
+        document.getElementById('modeGroceryToggle').style.display = 'none';
+    } else {
+        document.getElementById('btnAdmin').style.display = isAdmin ? 'block' : 'none';
+        document.getElementById('btnHistory').style.display = 'block';
+        document.getElementById('notifBellWrap').style.display = 'inline-flex';
+        document.getElementById('modeGroceryToggle').style.display = 'block';
+    }
+
+    applyStoredZoom(); 
+    initData();
+
+    if (pendingShortcutView === 'new') {
+        startNewOrder();
+    } else if (pendingShortcutView === 'history' && !isGuestUser) {
+        loadHistory();
+    }
+    pendingShortcutView = null; // only honor it once per page load
+}
+
+function logout() {
+    showConfirm(
+        currentLang === 'te' ? "లాగ్ అవుట్" : "Log Out",
+        currentLang === 'te' ? "మీరు లాగ్ అవుట్ చేయాలనుకుంటున్నారా?" : "Are you sure you want to log out?",
+        currentLang === 'te' ? "లాగ్ అవుట్" : "Log Out",
+        "🚪", "btn-warning",
+        function() {
+            localStorage.removeItem('vangaLoggedInUser');
+            localStorage.removeItem('vangaIsAdmin');
+            localStorage.removeItem('vangaIsGuest');
+            localStorage.removeItem('vangaLoginTime');
+            document.getElementById('appWrapper').style.display = 'none';
+            document.getElementById('loginView').style.display = 'flex';
+            document.getElementById('loginBtn').innerText = "Login";
+            document.getElementById('loginPass').value = "";
+        }
+    );
+}
+
+var i18n = {
+    en: {
+        btnNewOrder: "📝 New Order", btnHistory: "🕒 Order History", btnAdmin: "⚙️ Inventory Admin", back: "← Back",
+        modeMenu: "🍽️ Menu Selection", modeGroceries: "🛒 Grocery List",
+        tabSweets: "Sweets", tabSnacks: "Snacks", tabTiffins: "Tiffins", tabVegCurries: "Veg Curries", tabChutneys: "Chutneys",
+        tabAll: "All", tabReview: "⭐ Review", tabGroceries: "Groceries", tabVegetables: "Vegetables", tabNonVeg: "Non-Veg", tabTent: "Tent Items", tabOther: "Other Items",
+        thSno: "S.No", thItem: "Item Details",
+        phName: "Name", phOcc: "Occasion", phPlace: "Location / Maps Link", phMob: "Mobile Number", phSearch: "🔍 Search records...",
+        phItemSearch: "🔍 Search items...", phMenuSearch: "🔍 Search menu...", phGuest: "Guest Count",
+        btnGenerate: "Generate PDF", btnSubmitAdmin: "Submit to Admin", btnClear: "🗑️ Clear Form", loading: "Loading data...",
+        mapTitle: "Select Location", mapConfirm: "Confirm Location", mapAlert: "Please drop a pin on the map first!",
+        mapSearchPh: "Search for places or cities...",
+        btnAddCustomItem: "+ Add Item", btnAddCustomMenu: "+ Add Menu Dish", customTitle: "Add Item (Current Order Only)",
+        pdfGenerating: "Processing Request...", confirmClearTitle: "Clear All Data?", confirmClearMsg: "Are you sure you want to clear all entered data? This cannot be undone.", btnClearConfirm: "Yes, Clear",
+        confirmBackMsg: "You have unsaved data. Are you sure you want to go back and lose it?", btnLeave: "Yes, Leave",
+        pdfTimeout: "Request is taking too long. Please try again."
+    },
+    te: {
+        btnNewOrder: "📝 కొత్త ఆర్డర్", btnHistory: "🕒 ఆర్డర్ చరిత్ర", btnAdmin: "⚙️ ఇన్వెంటరీ అడ్మిన్", back: "← వెనుకకు",
+        modeMenu: "🍽️ మెనూ ఎంపిక", modeGroceries: "🛒 సరుకుల జాబితా",
+        tabSweets: "స్వీట్స్", tabSnacks: "స్నాక్స్ & హాట్", tabTiffins: "టిఫిన్స్", tabVegCurries: "వెజ్ కర్రీస్", tabChutneys: "పచ్చళ్లు",
+        tabAll: "అన్ని", tabReview: "⭐ ఎంచుకున్నవి", tabGroceries: "కిరాణా", tabVegetables: "కూరగాయలు", tabNonVeg: "నాన్-వెజ్", tabTent: "టెంట్ వస్తువులు", tabOther: "ఇతర సామాన్లు",
+        thSno: "క్ర.సం", thItem: "వస్తువు వివరాలు",
+        phName: "పేరు", phOcc: "సందర్భం", phPlace: "ప్రదేశం / మ్యాప్", phMob: "మొబైల్ నంబర్", phSearch: "🔍 వెతకండి...",
+        phItemSearch: "🔍 వస్తువులను వెతకండి...", phMenuSearch: "🔍 మెనూ వెతకండి...", phGuest: "అతిథుల సంఖ్య",
+        btnGenerate: "PDF సృష్టించండి", btnSubmitAdmin: "అడ్మిన్‌కు పంపండి", btnClear: "🗑️ క్లియర్ చేయండి", loading: "లోడ్ అవుతోంది...",
+        mapTitle: "స్థానాన్ని ఎంచుకోండి", mapConfirm: "నిర్ధారించండి", mapAlert: "దయచేసి మ్యాప్‌లో పిన్‌ను ఉంచండి!",
+        mapSearchPh: "ప్రదేశాలు లేదా నగరాలను వెతకండి...",
+        btnAddCustomItem: "+ కొత్త వస్తువు", btnAddCustomMenu: "+ కొత్త వంటకం", customTitle: "కొత్త వస్తువు (ఈ ఆర్డర్‌కు మాత్రమే)",
+        pdfGenerating: "ప్రాసెస్ చేయబడుతోంది...", confirmClearTitle: "డేటాను క్లియర్ చేయాలా?", confirmClearMsg: "మీరు ఎంటర్ చేసిన డేటాను క్లియర్ చేయాలనుకుంటున్నారా? ఇది వెనక్కి తీసుకోలేము.", btnClearConfirm: "అవును, క్లియర్ చేయి",
+        confirmBackMsg: "మీరు సేవ్ చేయని డేటాను కలిగి ఉన్నారు. మీరు వెనక్కి వెళ్లాలనుకుంటున్నారా?", btnLeave: "అవును, వెళ్లు",
+        pdfTimeout: "చాలా సమయం పడుతోంది. దయచేసి మళ్ళీ ప్రయత్నించండి."
+    }
+};
+
+function saveDraft() {
+    try {
+        var draft = {
+            person: document.getElementById('person').value,
+            occasion: document.getElementById('occasion').value,
+            date: document.getElementById('date').value,
+            place: document.getElementById('place').value,
+            mobile: document.getElementById('mobile').value,
+            guestCount: document.getElementById('guestCount').value,
+            qtyStore: qtyStore,
+            menuStore: menuStore,
+            unitStore: unitStore
+        };
+
+        if (editingRowId) {
+            draft.editingRowId = editingRowId;
+            localStorage.setItem('vangaEditDraft', JSON.stringify(draft));
+        } else {
+            localStorage.setItem('vangaOrderDraft', JSON.stringify(draft));
+            localStorage.setItem('vangaCustomItems', JSON.stringify(customItemsSaved));
+            localStorage.setItem('vangaCustomMenu', JSON.stringify(customMenuSaved)); 
+        }
+    } catch(e) {}
+}
+
+function loadDraft() {
+    try {
+        var cSaved = localStorage.getItem('vangaCustomItems');
+        if (cSaved) {
+            customItemsSaved = JSON.parse(cSaved);
+            for(var i=0; i<customItemsSaved.length; i++) allItems.push(customItemsSaved[i]);
+        }
+        var mSaved = localStorage.getItem('vangaCustomMenu');
+        if (mSaved) {
+            customMenuSaved = JSON.parse(mSaved);
+            for(var j=0; j<customMenuSaved.length; j++) allMenuItems.push(customMenuSaved[j]);
+        }
+
+        var saved = localStorage.getItem('vangaOrderDraft');
+        if (saved) {
+            var draft = JSON.parse(saved);
+            document.getElementById('person').value = draft.person || '';
+            document.getElementById('occasion').value = draft.occasion || '';
+            if (draft.date) document.getElementById('date').value = draft.date;
+            document.getElementById('place').value = draft.place || '';
+            document.getElementById('mobile').value = draft.mobile || '';
+            document.getElementById('guestCount').value = draft.guestCount || '';
+            qtyStore = draft.qtyStore || {};
+            menuStore = draft.menuStore || {};
+            unitStore = draft.unitStore || {};
+        }
+    } catch(e) {}
+}
+
+function forceClearForm() {
+    document.getElementById('person').value = "";
+    document.getElementById('occasion').value = "";
+    document.getElementById('place').value = "";
+    document.getElementById('mobile').value = "";
+    document.getElementById('guestCount').value = "";
+    document.getElementById("date").valueAsDate = new Date();
+    document.getElementById("innerItemSearch").value = "";
+    qtyStore = {}; unitStore = {}; menuStore = {};
+    customItemsSaved = []; customItemCounter = 0;
+    customMenuSaved = []; customMenuCounter = 0;
+
+    try {
+        localStorage.removeItem('vangaOrderDraft');
+        localStorage.removeItem('vangaCustomItems');
+        localStorage.removeItem('vangaCustomMenu');
+        localStorage.removeItem('vangaEditDraft'); 
+    } catch(e) {}
+
+    allItems = allItems.filter(function(i) { return !String(i.code).startsWith('C'); }); 
+    allMenuItems = allMenuItems.filter(function(m) { return !String(m.code).startsWith('CM'); }); 
+    
+    editingRowId = null;
+    document.getElementById('editBadge').style.display = 'none';
+    
+    var t = i18n[currentLang];
+    document.getElementById('btnGenerate').innerText = isGuestUser ? t.btnSubmitAdmin : t.btnGenerate;
+    
+    setOrderMode('Menu');
+    updateReviewBadge(); 
+    renderItems();
+}
+
+function clearForm() {
+    var t = i18n[currentLang];
+    showConfirm(
+        t.confirmClearTitle, t.confirmClearMsg, t.btnClearConfirm, "🗑️", "btn-danger",
+        function() { forceClearForm(); showToast(currentLang === 'te' ? "డేటా క్లియర్ చేయబడింది" : "Data cleared successfully", "success"); }
+    );
+}
+
+function toggleTheme() {
+    var html = document.documentElement;
+    var btn = document.getElementById("topThemeBtn");
+    if (html.getAttribute("data-theme") === "light") {
+        html.setAttribute("data-theme", "dark");
+        btn.innerText = "☀️";
+    } else {
+        html.setAttribute("data-theme", "light");
+        btn.innerText = "🌙";
+    }
+}
+
+function toggleLang(forceDefault) {
+    if(!forceDefault) currentLang = currentLang === 'en' ? 'te' : 'en';
+    var topLangBtn = document.getElementById("topLangBtn");
+    if(topLangBtn) { topLangBtn.innerText = currentLang === 'en' ? 'తెలుగు' : 'English'; }
+    var t = i18n[currentLang];
+    
+    document.getElementById('btnNewOrder').innerText = t.btnNewOrder;
+    document.getElementById('btnHistory').innerText = t.btnHistory;
+    document.getElementById('btnAdmin').innerText = t.btnAdmin;
+    var backBtns = document.querySelectorAll('[data-i18n="back"]');
+    for(var i=0; i<backBtns.length; i++) backBtns[i].innerText = t.back;
+    
+    // Order Mode Toggles
+    document.getElementById('modeMenuToggle').innerText = t.modeMenu;
+    document.getElementById('modeGroceryToggle').innerText = t.modeGroceries;
+    
+    // Sub-Tabs
+    document.querySelectorAll('[data-i18n="tabAll"]').forEach(el => el.innerText = t.tabAll);
+    document.querySelectorAll('[data-i18n="tabReview"]').forEach(el => el.innerHTML = t.tabReview + '<span class="tab-badge review-badge" style="display:none;">0</span>');
+    document.querySelector('[data-i18n="tabSweets"]').innerText = t.tabSweets;
+    document.querySelector('[data-i18n="tabSnacks"]').innerText = t.tabSnacks;
+    document.querySelector('[data-i18n="tabTiffins"]').innerText = t.tabTiffins;
+    document.querySelector('[data-i18n="tabVegCurries"]').innerText = t.tabVegCurries;
+    document.querySelector('[data-i18n="tabChutneys"]').innerText = t.tabChutneys;
+    document.querySelector('[data-i18n="tabGroceries"]').innerText = t.tabGroceries;
+    document.querySelector('[data-i18n="tabVegetables"]').innerText = t.tabVegetables;
+    document.querySelectorAll('[data-i18n="tabNonVeg"]').forEach(el => el.innerText = t.tabNonVeg);
+    document.querySelector('[data-i18n="tabTent"]').innerText = t.tabTent;
+    document.querySelector('[data-i18n="tabOther"]').innerText = t.tabOther;
+    
+    document.getElementById('addBtnDynamic').innerText = orderMode === 'Menu' ? t.btnAddCustomMenu : t.btnAddCustomItem;
+    if(!editingRowId) { document.getElementById('btnGenerate').innerText = isGuestUser ? t.btnSubmitAdmin : t.btnGenerate; }
+    document.getElementById('btnClear').innerText = t.btnClear;
+    document.getElementById('person').placeholder = t.phName;
+    document.getElementById('occasion').placeholder = t.phOcc;
+    document.getElementById('place').placeholder = t.phPlace;
+    document.getElementById('mobile').placeholder = t.phMob;
+    document.getElementById('guestCount').placeholder = t.phGuest;
+    document.getElementById('searchInput').placeholder = t.phSearch;
+    
+    document.getElementById('innerItemSearch').placeholder = orderMode === 'Menu' ? t.phMenuSearch : t.phItemSearch;
+    document.getElementById('mapTitle').innerText = t.mapTitle;
+    document.getElementById('mapConfirm').innerText = t.mapConfirm;
+    if(document.getElementById('mapSearchInput')) { document.getElementById('mapSearchInput').placeholder = t.mapSearchPh; }
+    
+    updateReviewBadge();
+    renderItems();
+    if(document.getElementById('historyView').classList.contains('active')) filterHistory(true);
+}
+
+// ─────────────────────────────────────────────
+// ORDER MODE TOGGLE (MENU VS GROCERIES)
+// ─────────────────────────────────────────────
+function setOrderMode(mode) {
+    orderMode = mode;
+    document.getElementById('modeMenuToggle').classList.remove('active');
+    document.getElementById('modeGroceryToggle').classList.remove('active');
+    
+    var searchEl = document.getElementById('innerItemSearch');
+    var t = i18n[currentLang];
+    
+    if (mode === 'Menu') {
+        document.getElementById('modeMenuToggle').classList.add('active');
+        document.getElementById('menuTabsWrapper').style.display = 'flex';
+        document.getElementById('groceryTabsWrapper').style.display = 'none';
+        document.getElementById('addBtnDynamic').innerText = t.btnAddCustomMenu;
+        if (searchEl) searchEl.placeholder = t.phMenuSearch;
+        
+        var tabs = document.getElementById('menuTabs').querySelectorAll('.tab');
+        for(var i=0; i<tabs.length; i++) tabs[i].classList.remove('active');
+        tabs[0].classList.add('active');
+    } else {
+        document.getElementById('modeGroceryToggle').classList.add('active');
+        document.getElementById('menuTabsWrapper').style.display = 'none';
+        document.getElementById('groceryTabsWrapper').style.display = 'flex';
+        document.getElementById('addBtnDynamic').innerText = t.btnAddCustomItem;
+        if (searchEl) searchEl.placeholder = t.phItemSearch;
+        
+        var tabs = document.getElementById('groceryTabs').querySelectorAll('.tab');
+        for(var i=0; i<tabs.length; i++) tabs[i].classList.remove('active');
+        tabs[0].classList.add('active');
+    }
+    
+    activeTab = "All";
+    if (searchEl) searchEl.value = '';
+    renderItems();
+}
+
+// ─────────────────────────────────────────────
+// CUSTOM ITEMS (MENU & GROCERY)
+// ─────────────────────────────────────────────
+function openAddModal() {
+    if(orderMode === 'Menu') {
+        document.getElementById('customMenuModal').style.display = 'flex';
+        document.getElementById('customMenuName').value = '';
+    } else {
+        document.getElementById('customItemModal').style.display = 'flex';
+        document.getElementById('customName').value = '';
+    }
+}
+function closeCustomModal() { document.getElementById('customItemModal').style.display = 'none'; }
+function closeMenuModal() { document.getElementById('customMenuModal').style.display = 'none'; }
+
+function saveCustomItem() {
+    var name = document.getElementById('customName').value.trim();
+    var cat = document.getElementById('customCategory').value;
+    var u = document.getElementById('customUnit').value;
+    if(!name) return showToast(currentLang === 'te' ? "దయచేసి వస్తువు పేరు ఎంటర్ చేయండి." : "Please enter an item name.", "error");
+
+    var unitTe = "";
+    if (u === 'kg') unitTe = 'కేజీ';
+    else if (u === 'Nos') unitTe = 'నెం';
+    else if (u === 'Liters') unitTe = 'లీటర్లు';
+    else if (u === 'Packets') unitTe = 'ప్యాకెట్లు';
+
+    var catTe = cat === 'Groceries' ? 'కిరాణా' : (cat === 'Vegetables' ? 'కూరగాయలు' : (cat === 'Non-Veg' ? 'నాన్-వెజ్' : (cat === 'Tent Items' ? 'టెంట్ సామాగ్రి' : 'ఇతర సామాన్లు')));
+
+    customItemCounter++;
+    var newItem = { code: 'C' + customItemCounter, en: name, te: name, category_en: cat, category_te: catTe, unit_en: u, unit_te: unitTe };
+    allItems.push(newItem);
+    customItemsSaved.push(newItem);
+    qtyStore[name] = 1;
+    if(u === 'kg') unitStore[name] = 'kg';
+    saveDraft();
+    closeCustomModal();
+    renderItems();
+}
+
+function saveCustomMenu() {
+    var name = document.getElementById('customMenuName').value.trim();
+    var cat = document.getElementById('customMenuCategory').value;
+    if(!name) return showToast(currentLang === 'te' ? "దయచేసి వంటకం పేరు ఎంటర్ చేయండి." : "Please enter a dish name.", "error");
+
+    var catTe = "ఇతర సామాన్లు";
+    if(cat === 'Sweets & Desserts') catTe = "స్వీట్స్";
+    else if(cat === 'Snacks & Hot Items') catTe = "స్నాక్స్ & హాట్";
+    else if(cat === 'Tiffins') catTe = "టిఫిన్స్";
+    else if(cat === 'Veg Curries & Dals') catTe = "వెజ్ కర్రీస్";
+    else if(cat === 'Chutneys & Podis') catTe = "పచ్చళ్లు";
+    else if(cat === 'Non-Veg') catTe = "నాన్-వెజ్";
+
+    customMenuCounter++;
+    var newMenu = { code: 'CM' + customMenuCounter, en: name, te: name, category_en: cat, category_te: catTe };
+    allMenuItems.push(newMenu);
+    customMenuSaved.push(newMenu);
+    menuStore[name] = true;
+    saveDraft();
+    closeMenuModal();
+    renderItems();
+}
+
+// ─────────────────────────────────────────────
+// ADMIN PANEL
+// ─────────────────────────────────────────────
+function loadAdminPanel() {
+    switchView('adminView');
+    document.getElementById('adminSearchInput').value = '';
+    setAdminTab('Items'); 
+}
+
+function setAdminTab(tabName) {
+    adminActiveTab = tabName;
+    document.getElementById('adminItemsToggle').classList.remove('active');
+    document.getElementById('adminMenuToggle').classList.remove('active');
+    
+    if (tabName === 'Menu') {
+        document.getElementById('adminMenuToggle').classList.add('active');
+        document.getElementById('adminAddBtn').innerText = '+ Add Menu Dish';
+    } else {
+        document.getElementById('adminItemsToggle').classList.add('active');
+        document.getElementById('adminAddBtn').innerText = '+ Add Grocery';
+    }
+    renderAdminItems();
+}
+
+function renderAdminItems() {
+    var term = document.getElementById('adminSearchInput').value.toLowerCase();
+    
+    var listToRender = adminActiveTab === 'Menu' ? allMenuItems : allItems;
+    listToRender = listToRender.filter(function(i) { return !String(i.code).startsWith('C'); }); 
+
+    if (term) {
+        listToRender = listToRender.filter(function(i) {
+            return (i.en && i.en.toLowerCase().indexOf(term) !== -1) ||
+                   (i.te && i.te.indexOf(term) !== -1) ||
+                   (i.code && i.code.toString().toLowerCase().indexOf(term) !== -1);
+        });
+    }
+
+    if(listToRender.length === 0) {
+        document.getElementById('adminItemsData').innerHTML = '<div class="loading">No records found in master list.</div>';
+        return;
+    }
+
+    var html = '<div class="admin-list-container">';
+    listToRender.forEach(function(i, idx) {
+        var safeCode = (i.code||'').toString().replace(/'/g, "\\'");
+        var safeEn = (i.en||'').replace(/'/g, "\\'");
+        var safeTe = (i.te||'').replace(/'/g, "\\'");
+        var safeCatEn = (i.category_en||'').replace(/'/g, "\\'");
+        var safeCatTe = (i.category_te||'').replace(/'/g, "\\'");
+        var safeUnitEn = (i.unit_en||'').replace(/'/g, "\\'");
+        var safeUnitTe = (i.unit_te||'').replace(/'/g, "\\'");
+        
+        var animDelay = (idx < 15) ? (idx * 0.03) : 0;
+        var displayCat = currentLang === 'te' ? i.category_te : i.category_en;
+        
+        html += '<div class="admin-item-card" style="animation-delay: ' + animDelay + 's;">' +
+            '<div class="admin-item-code">' + (i.code || '-') + '</div>' +
+            '<div class="admin-item-details">' +
+                '<div class="admin-item-name-en">' + i.en + '</div>' +
+                '<div class="admin-item-name-te">' + i.te + '</div>' +
+                '<div class="admin-item-category">' + displayCat + '</div>' +
+            '</div>' +
+            '<button class="admin-edit-btn" onclick="openAdminEditModal(\''+safeCode+'\', \''+safeEn+'\', \''+safeTe+'\', \''+safeCatEn+'\', \''+safeCatTe+'\', \''+safeUnitEn+'\', \''+safeUnitTe+'\')">✏️ Edit</button>' +
+        '</div>';
+    });
+    html += '</div>';
+    document.getElementById('adminItemsData').innerHTML = html;
+}
+
+function populateAdminUnits() {
+    var uniqueEn = new Set(); var uniqueTe = new Set();
+    uniqueEn.add('kg'); uniqueEn.add('grams'); uniqueEn.add('Nos'); uniqueEn.add('Packets'); uniqueEn.add('Liters');
+    uniqueTe.add('కేజీ'); uniqueTe.add('గ్రా'); uniqueTe.add('నెం'); uniqueTe.add('ప్యాకెట్లు'); uniqueTe.add('లీటర్లు');
+    
+    allItems.forEach(function(i) {
+        if(i.unit_en && !String(i.code).startsWith('C')) uniqueEn.add(i.unit_en.trim());
+        if(i.unit_te && !String(i.code).startsWith('C')) uniqueTe.add(i.unit_te.trim());
+    });
+    
+    var enHtml = '<option value="">-- No Unit (ఖాళీ) --</option>';
+    uniqueEn.forEach(function(u) { enHtml += '<option value="' + u + '">' + u + '</option>'; });
+    var teHtml = '<option value="">-- No Unit (ఖాళీ) --</option>';
+    uniqueTe.forEach(function(u) { teHtml += '<option value="' + u + '">' + u + '</option>'; });
+    
+    document.getElementById('adminUnitEn').innerHTML = enHtml;
+    document.getElementById('adminUnitTe').innerHTML = teHtml;
+}
+
+function openAdminEditModal(code, en, te, cat_en, cat_te, unit_en, unit_te) {
+    document.getElementById('adminEditModal').style.display = 'flex';
+    populateAdminUnits();
+    
+    document.getElementById('adminOldCode').value = code;
+    document.getElementById('adminOldEn').value = en;
+    document.getElementById('adminCode').value = code;
+    document.getElementById('adminEn').value = en;
+    document.getElementById('adminTe').value = te;
+
+    var catSelect = document.getElementById('adminCategory');
+    if (adminActiveTab === 'Menu') {
+        document.getElementById('adminUnitWrapper').style.display = 'none'; 
+        catSelect.innerHTML = `
+            <option value="Sweets & Desserts">Sweets & Desserts</option>
+            <option value="Snacks & Hot Items">Snacks & Hot Items</option>
+            <option value="Tiffins">Tiffins</option>
+            <option value="Veg Curries & Dals">Veg Curries & Dals</option>
+            <option value="Chutneys & Podis">Chutneys & Podis</option>
+            <option value="Non-Veg">Non-Veg</option>
+        `;
+    } else {
+        document.getElementById('adminUnitWrapper').style.display = 'flex';
+        catSelect.innerHTML = `
+            <option value="Groceries">Groceries</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Non-Veg">Non-Veg</option>
+            <option value="Tent Items">Tent Items</option>
+            <option value="Other Items">Other Items</option>
+        `;
+        if(unit_en) document.getElementById('adminUnitEn').value = unit_en;
+        if(unit_te) document.getElementById('adminUnitTe').value = unit_te;
+    }
+    
+    var opts = Array.from(catSelect.options).map(o => o.value);
+    catSelect.value = opts.includes(cat_en) ? cat_en : opts[0];
+}
+
+function closeAdminEditModal() { document.getElementById('adminEditModal').style.display = 'none'; }
+
+function submitAdminEdit() {
+    var oldCode = document.getElementById('adminOldCode').value;
+    var oldEn = document.getElementById('adminOldEn').value;
+    var code = document.getElementById('adminCode').value.trim();
+    var en = document.getElementById('adminEn').value.trim();
+    var te = document.getElementById('adminTe').value.trim();
+    var catEn = document.getElementById('adminCategory').value;
+    var unitEn = adminActiveTab === 'Menu' ? '' : document.getElementById('adminUnitEn').value.trim();
+    var unitTe = adminActiveTab === 'Menu' ? '' : document.getElementById('adminUnitTe').value.trim();
+    
+    if(!en || !te) return showToast("Please provide both English and Telugu names.", "error");
+    
+    var catTe = "ఇతర సామాన్లు";
+    if (adminActiveTab === 'Menu') {
+        if(catEn === 'Sweets & Desserts') catTe = "స్వీట్స్";
+        else if(catEn === 'Snacks & Hot Items') catTe = "స్నాక్స్ & హాట్";
+        else if(catEn === 'Tiffins') catTe = "టిఫిన్స్";
+        else if(catEn === 'Veg Curries & Dals') catTe = "వెజ్ కర్రీస్";
+        else if(catEn === 'Chutneys & Podis') catTe = "పచ్చళ్లు";
+        else if(catEn === 'Non-Veg') catTe = "నాన్-వెజ్";
+    } else {
+        if(catEn === 'Groceries') catTe = "కిరాణా సరుకులు";
+        else if(catEn === 'Vegetables') catTe = "కూరగాయలు";
+        else if(catEn === 'Non-Veg') catTe = "నాన్-వెజ్";
+        else if(catEn === 'Tent Items') catTe = "టెంట్ సామాగ్రి";
+    }
+
+    var data = { oldCode: oldCode, oldEn: oldEn, code: code, en: en, te: te, category_en: catEn, category_te: catTe, unit_en: unitEn, unit_te: unitTe, isMenu: (adminActiveTab === 'Menu') };
+    var btn = document.getElementById('btnAdminSave');
+    btn.innerText = "⏳ Saving...";
+    btn.disabled = true;
+    
+    if (typeof google !== 'undefined') {
+        google.script.run.withSuccessHandler(function(res){
+            showToast(res.message, res.success ? "success" : "error");
+            closeAdminEditModal();
+            btn.innerText = "Save to Google Sheets";
+            btn.disabled = false;
+            initData();
+            setTimeout(renderAdminItems, 1000);
+        }).saveAdminItem(data);
+    }
+}
+
+// ─────────────────────────────────────────────
+// MAP
+// ─────────────────────────────────────────────
+var map; var mapMarker; var selectedLat = null; var selectedLng = null;
+function loadLeafletThenInit(callback) {
+    if (!leafletCssLoaded) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(link);
+        leafletCssLoaded = true;
+    }
+    var attempts = 0;
+    function waitForL() {
+        if (typeof L !== 'undefined') { callback(); } 
+        else if (attempts < 30) { attempts++; setTimeout(waitForL, 100); } 
+        else { showToast("Map failed to load. Please try again.", "error"); }
+    }
+    waitForL();
+}
+
+function initMapInstance() {
+    map = L.map('map').setView([17.3850, 78.4867], 6);
+    L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', { maxZoom: 20 }).addTo(map);
+    map.on('click', function(e) {
+        selectedLat = e.latlng.lat; selectedLng = e.latlng.lng;
+        if (mapMarker) { mapMarker.setLatLng(e.latlng); } else { mapMarker = L.marker(e.latlng).addTo(map); }
+        if(document.getElementById('mapSearchDropdown')) document.getElementById('mapSearchDropdown').style.display = 'none';
+    });
+}
+
+function openMap() {
+    document.getElementById('mapModal').style.display = 'flex';
+    if(document.getElementById('mapSearchInput')) { document.getElementById('mapSearchInput').value = ''; document.getElementById('mapSearchDropdown').style.display = 'none'; }
+    if (!map) { loadLeafletThenInit(function() { setTimeout(initMapInstance, 100); }); } 
+    else { setTimeout(function(){ map.invalidateSize(); }, 300); }
+}
+
+function handleMapKey(e) { if (e.key === 'Enter') searchMapLocation(); }
+
+function searchMapLocation() {
+    var query = document.getElementById('mapSearchInput').value.trim();
+    if (!query) return;
+    var dropdown = document.getElementById('mapSearchDropdown');
+    dropdown.innerHTML = '<li style="text-align:center; color: var(--text-light);">Searching...</li>';
+    dropdown.style.display = 'block';
+    fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query))
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.length === 0) { dropdown.innerHTML = '<li style="text-align:center; color: #ef4444;">No results found</li>'; setTimeout(function(){ dropdown.style.display = 'none'; }, 2000); return; }
+            dropdown.innerHTML = '';
+            data.slice(0, 5).forEach(function(place) {
+                var li = document.createElement('li'); li.innerText = place.display_name;
+                li.onclick = function() {
+                    selectedLat = parseFloat(place.lat); selectedLng = parseFloat(place.lon);
+                    var newLatLng = new L.LatLng(selectedLat, selectedLng);
+                    map.setView(newLatLng, 15);
+                    if (mapMarker) { mapMarker.setLatLng(newLatLng); } else { mapMarker = L.marker(newLatLng).addTo(map); }
+                    dropdown.style.display = 'none';
+                    document.getElementById('mapSearchInput').value = place.display_name.split(',')[0];
+                };
+                dropdown.appendChild(li);
+            });
+        }).catch(function(e) {
+            dropdown.innerHTML = '<li style="text-align:center; color: #ef4444;">Error finding location</li>';
+            setTimeout(function(){ dropdown.style.display = 'none'; }, 2000);
+        });
+}
+
+function goToCurrentLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                selectedLat = pos.coords.latitude; selectedLng = pos.coords.longitude;
+                var newLatLng = new L.LatLng(selectedLat, selectedLng);
+                map.setView(newLatLng, 17);
+                if (mapMarker) { mapMarker.setLatLng(newLatLng); } else { mapMarker = L.marker(newLatLng).addTo(map); }
+            },
+            function() { showToast("Could not access location.", "error"); }
+        );
+    }
+}
+function closeMap() { document.getElementById('mapModal').style.display = 'none'; }
+function confirmLocation() {
+    if (selectedLat && selectedLng) {
+        document.getElementById('place').value = "https://www.google.com/maps?q=" + selectedLat + "," + selectedLng;
+        saveDraft(); closeMap();
+    } else { showToast(i18n[currentLang].mapAlert, "error"); }
+}
+
+// ─────────────────────────────────────────────
+// ORDER & HISTORY MANAGEMENT
+// ─────────────────────────────────────────────
+function switchView(viewId) {
+    var sections = document.querySelectorAll('.view-section');
+    for(var i=0; i<sections.length; i++) sections[i].classList.remove('active');
+    document.getElementById(viewId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startNewOrder() {
+    editingRowId = null;
+    document.getElementById('editBadge').style.display = 'none';
+    document.getElementById('btnGenerate').innerText = isGuestUser ? i18n[currentLang].btnSubmitAdmin : i18n[currentLang].btnGenerate;
+    switchView('orderView');
+}
+
+function parseDateSafe(dateStr) {
+    if (!dateStr) return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+    var dmyMatch = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (dmyMatch) return dmyMatch[3] + '-' + dmyMatch[2].padStart(2, '0') + '-' + dmyMatch[1].padStart(2, '0');
+    var dmyDash = dateStr.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+    if (dmyDash) return dmyDash[3] + '-' + dmyDash[2].padStart(2, '0') + '-' + dmyDash[1].padStart(2, '0');
+    try {
+        var parsed = new Date(dateStr);
+        if (!isNaN(parsed.getTime())) return parsed.toISOString().split('T')[0];
+    } catch(e) {}
+    return null; 
+}
+
+function editOrder(rowId) {
+    var order = null;
+    for(var i=0; i<globalHistoryData.length; i++){ if(globalHistoryData[i].rowId === rowId) order = globalHistoryData[i]; }
+    if (!order) return;
+
+    editingRowId = order.rowId;
+    document.getElementById('editBadge').style.display = 'block';
+    document.getElementById('btnGenerate').innerText = "♻️ Update & Save PDFs";
+    switchView('orderView');
+
+    document.getElementById('person').value = order.name || '';
+    document.getElementById('occasion').value = order.occasion || '';
+    document.getElementById('place').value = order.place || '';
+    document.getElementById('mobile').value = order.mobile || '';
+
+    var parsedDate = parseDateSafe(order.date);
+    if (parsedDate) { document.getElementById('date').value = parsedDate; } 
+    else { document.getElementById("date").valueAsDate = new Date(); }
+
+    qtyStore = {}; unitStore = {}; menuStore = {};
+    
+    try {
+        var rawMenu = JSON.parse(order.rawMenuItems || '[]');
+        rawMenu.forEach(function(m) { menuStore[m.en] = true; });
+    } catch(e) {}
+
+    try {
+        var rawItems = JSON.parse(order.rawItems || '[]');
+        if (rawItems.length > 0) {
+            rawItems.forEach(function(it) {
+                var baseItem = null;
+                for(var j=0; j<allItems.length; j++){
+                    if(allItems[j].en === it.en || allItems[j].te === it.te || allItems[j].en === it.name || allItems[j].te === it.name) {
+                        baseItem = allItems[j]; break;
+                    }
+                }
+                if(baseItem) {
+                    qtyStore[baseItem.en] = it.quantity;
+                    var uL = (it.finalUnit || '').toLowerCase().trim();
+                    if(uL === 'grams' || uL === 'గ్రా' || uL === 'g') { unitStore[baseItem.en] = 'g'; } 
+                    else if(uL === 'kg' || uL === 'కేజీ') { unitStore[baseItem.en] = 'kg'; }
+                }
             });
         }
+    } catch(e) {}
+    
+    renderItems();
+    updateReviewBadge(); 
+}
 
-        function revealApp() {
-            setTimeout(() => {
-                splashScreen.style.opacity = '0';
-                appFrame.style.display = 'block';
-                void appFrame.offsetWidth;
-                appFrame.style.opacity = '1';
-                setTimeout(() => { splashScreen.style.visibility = 'hidden'; }, 600);
-            }, 800);
+function openNotifications() {
+    viewPendingOnly = true;
+    document.getElementById('searchInput').value = "";
+    clearDateFilter(); 
+    switchView('historyView');
+    document.getElementById('clearPendingBtn').style.display = 'inline-flex';
+}
+
+function exitPendingFilter() {
+    viewPendingOnly = false;
+    document.getElementById('clearPendingBtn').style.display = 'none';
+    filterHistory(true);
+}
+
+function loadHistory() {
+    switchView('historyView');
+    document.getElementById('historyData').innerHTML = '<div class="loading">' + i18n[currentLang].loading + '</div>';
+    if (typeof google !== 'undefined') {
+        google.script.run
+            .withSuccessHandler(function(data) { 
+                globalHistoryData = data; 
+                updateNotificationBadge();
+                filterHistory(true); 
+            })
+            .withFailureHandler(function(err) { document.getElementById('historyData').innerHTML = '<div class="loading" style="color:red;">Error loading data.</div>'; })
+            .getHistory();
+    }
+}
+
+var historyDisplayLimit = 30;
+function parseDateForFilter(dateStr) {
+    if (!dateStr) return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+    var dmySlash = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (dmySlash) return dmySlash[3] + '-' + dmySlash[2].padStart(2,'0') + '-' + dmySlash[1].padStart(2,'0');
+    var dmyDash = dateStr.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+    if (dmyDash) return dmyDash[3] + '-' + dmyDash[2].padStart(2,'0') + '-' + dmyDash[1].padStart(2,'0');
+    try { var p = new Date(dateStr); if (!isNaN(p)) return p.toISOString().split('T')[0]; } catch(e) {}
+    return null;
+}
+
+function clearDateFilter() {
+    var fromEl = document.getElementById('filterDateFrom');
+    var toEl = document.getElementById('filterDateTo');
+    if (fromEl) fromEl.value = '';
+    if (toEl) toEl.value = '';
+    filterHistory(true);
+}
+
+function filterHistory(resetLimit) {
+    if(resetLimit) historyDisplayLimit = 30;
+    var term = document.getElementById('searchInput').value.toLowerCase();
+
+    var fromEl = document.getElementById('filterDateFrom');
+    var toEl = document.getElementById('filterDateTo');
+    var fromDate = fromEl ? fromEl.value : '';   
+    var toDate   = toEl   ? toEl.value   : '';   
+
+    var data = globalHistoryData.filter(function(r) {
+        if (viewPendingOnly && r.status !== "Pending Admin") return false;
+        var textMatch = ((r.name||"")+(r.mobile||"")+(r.occasion||"")+(r.place||"")+(r.orderId||"")).toLowerCase().indexOf(term) !== -1;
+        if (!textMatch) return false;
+        if (fromDate || toDate) {
+            var rowDate = parseDateForFilter(r.date);
+            if (!rowDate) return false;
+            if (fromDate && rowDate < fromDate) return false;
+            if (toDate   && rowDate > toDate)   return false;
         }
+        return true;
+    });
 
-        function loadApp() {
-            if (!navigator.onLine) { showOffline(); return; }
-            statusMessage.innerText = "Loading data...";
-            appFrame.src = finalAppsScriptUrl; // Passes the shortcut view to Google
-            appFrame.onload = function() { revealApp(); };
-            setTimeout(revealApp, 4000); 
-        }
+    var countEl = document.getElementById('historyResultCount');
+    if (countEl) {
+        if (fromDate || toDate || term || viewPendingOnly) { countEl.innerText = (currentLang === 'te' ? data.length + ' ఆర్డర్లు దొరికాయి' : data.length + ' order(s) found'); } 
+        else { countEl.innerText = ''; }
+    }
 
-        function showOffline() {
-            splashScreen.style.display = 'none';
-            appFrame.style.display = 'none';
-            offlineScreen.style.display = 'flex';
-        }
+    if(!data.length) { document.getElementById('historyData').innerHTML = '<div class="loading">No records found.</div>'; return; }
 
-        window.addEventListener('online', () => { window.location.reload(); });
-        window.addEventListener('offline', showOffline);
+    var html = '';
+    var dataToRender = data.slice(0, historyDisplayLimit);
 
-        statusMessage.innerText = "Checking location...";
+    dataToRender.forEach(function(row, idx) {
+        var mapLink = row.place.startsWith('http') ? row.place : "https://www.google.com/maps?q=" + encodeURIComponent(row.place);
+        var pdfButtons = "";
         
-        if (navigator.onLine) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function() { loadApp(); },
-                    function() { loadApp(); },
-                    { timeout: 4000 }
-                );
-            } else { loadApp(); }
-        } else { showOffline(); }
-    </script>
+        if (row.pdf_master) { pdfButtons += '<a href="'+row.pdf_master+'" target="_blank" class="pdf-pill master-pdf-pill">👑 మాస్టర్ (Master)</a>'; }
+        if (row.pdf_groceries) { pdfButtons += '<a href="'+row.pdf_groceries+'" target="_blank" class="pdf-pill">🌾 కిరాణా</a>'; }
+        if (row.pdf_veg)       { pdfButtons += '<a href="'+row.pdf_veg+'"       target="_blank" class="pdf-pill">🍅 కూరగాయలు</a>'; }
+        if (row.pdf_nonveg)    { pdfButtons += '<a href="'+row.pdf_nonveg+'"    target="_blank" class="pdf-pill">🍗 నాన్-వెజ్</a>'; }
+        if (row.pdf_tent)      { pdfButtons += '<a href="'+row.pdf_tent+'"      target="_blank" class="pdf-pill">⛺ టెంట్</a>'; }
+        if (row.pdf_other)     { pdfButtons += '<a href="'+row.pdf_other+'"     target="_blank" class="pdf-pill">📦 ఇతర</a>'; }
+        if(!pdfButtons) pdfButtons = '<span style="font-size:12px; color:#999;">No PDFs generated yet</span>';
+        
+        var animDelay = (idx % 30) * 0.05;
+        var displayOrderId = row.orderId ? '<div style="font-size:12px; color:var(--text-light); margin-bottom:4px; font-family: monospace;">ID: ' + row.orderId + '</div>' : '';
+
+        var statusHtml = '';
+        if(row.status === "Pending Admin") { statusHtml = '<span style="background:#fef08a; color:#a16207; padding:2px 8px; border-radius:12px; font-size:10px; font-weight:800; border:1px solid #fde047; margin-left:8px; vertical-align:middle; animation: pulseText 1.5s infinite;">Pending</span>'; } 
+        else if (row.status === "Completed") { statusHtml = '<span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:12px; font-size:10px; font-weight:800; border:1px solid #bbf7d0; margin-left:8px; vertical-align:middle;">Completed</span>'; }
+
+        html += '<div class="history-card" style="animation-delay: ' + animDelay + 's">' +
+            '<div class="hc-header">' +
+                '<div style="text-align:left;">' + displayOrderId + '<strong>' + row.name + '</strong>' + statusHtml + '<br><span>📞 ' + row.mobile + '</span></div>' +
+                '<div style="text-align:right;">' + row.occasion + '<br><span>📅 ' + row.date + '</span></div>' +
+            '</div>' +
+            '<div class="hc-body">' + pdfButtons + '</div>' +
+            '<div class="hc-footer">' +
+                '<a href="' + mapLink + '" target="_blank" class="hc-btn hc-map" title="Directions">🗺️ Map</a>' +
+                '<button onclick="editOrder(' + row.rowId + ')" class="hc-btn hc-edit">✏️ Edit</button>' +
+            '</div>' +
+        '</div>';
+    });
+
+    if (data.length > historyDisplayLimit) {
+        html += '<button onclick="loadMoreHistory()" class="menu-btn" style="width: 100%; margin-top: 15px; padding: 15px; background: var(--tab-bg); color: var(--primary); font-size: 16px; box-shadow: none;">⬇️ Load More</button>';
+    }
+    document.getElementById('historyData').innerHTML = html;
+}
+function loadMoreHistory() { historyDisplayLimit += 30; filterHistory(false); }
+
+// ─────────────────────────────────────────────
+// ITEM RENDERING & SELECTION
+// ─────────────────────────────────────────────
+function updateReviewBadge() {
+    var count = 0;
+    allItems.forEach(function(i) { if (qtyStore[i.en] && parseFloat(qtyStore[i.en]) > 0) count++; });
+    allMenuItems.forEach(function(m) { if (menuStore[m.en]) count++; });
+    
+    var badges = document.querySelectorAll('.review-badge');
+    badges.forEach(function(badge) {
+        if (count > 0) { badge.innerText = count; badge.style.display = 'inline-flex'; } 
+        else { badge.style.display = 'none'; }
+    });
+}
+
+function selectTab(tabEnKey, e) {
+    activeTab = tabEnKey;
+    var parentTabs = e.target.parentElement.querySelectorAll(".tab");
+    for(var i=0; i<parentTabs.length; i++) parentTabs[i].classList.remove("active");
+    e.target.classList.add("active");
+    
+    var searchEl = document.getElementById('innerItemSearch');
+    if (searchEl) searchEl.value = '';
+    renderItems();
+}
+
+function updateMenuStore(itemKey, isChecked) {
+    menuStore[itemKey] = isChecked;
+    saveDraft(); updateReviewBadge(); renderItems();
+}
+
+function updateStore(inputId, itemKey, val) {
+    qtyStore[itemKey] = val;
+    saveDraft(); updateReviewBadge();
+    var inputEl = document.getElementById(inputId);
+    if (inputEl) {
+        var row = inputEl.closest('tr');
+        if (parseFloat(val) > 0) {
+            row.classList.add('selected-row'); row.classList.remove('row-pulse');
+            void row.offsetWidth; row.classList.add('row-pulse');
+        } else {
+            row.classList.remove('selected-row'); row.classList.remove('row-pulse');
+        }
+    }
+}
+
+function handleUnitPillClick(itemKey, clickedSpan) {
+    var parent = clickedSpan.parentNode;
+    var spans = parent.querySelectorAll('span');
+    for(var i=0; i<spans.length; i++) spans[i].classList.remove('active');
+    clickedSpan.classList.add('active');
+    unitStore[itemKey] = clickedSpan.getAttribute('data-val');
+    saveDraft();
+}
+
+function changeQty(inputId, itemKey, change) {
+    var input = document.getElementById(inputId);
+    var current = parseFloat(input.value) || 0;
+    var next = current + change;
+    next = Math.round(next * 1000) / 1000;
+    if (next <= 0) { input.value = ""; updateStore(inputId, itemKey, ""); }
+    else { input.value = next; updateStore(inputId, itemKey, next); }
+}
+
+function generateItemRowHTML(i, idx) {
+    var key = i.en;
+    var savedQty = qtyStore[key] || "";
+    var itemName = currentLang === 'te' ? i.te : i.en;
+    var inputId = 'qty_' + idx;
+    var safeKey = key.replace(/'/g, "\\'");
+    var baseUnitEn = (i.unit_en || '').toString().toLowerCase().trim();
+    var baseUnitTe = (i.unit_te || '').toString().toLowerCase().trim();
+    var isWeight = (baseUnitEn === 'kg' || baseUnitEn === 'grams' || baseUnitEn === 'గ్రా' || baseUnitEn === 'కేజీ' || baseUnitEn === 'g' ||
+                    baseUnitTe === 'kg' || baseUnitTe === 'grams' || baseUnitTe === 'గ్రా' || baseUnitTe === 'కేజీ' || baseUnitTe === 'g');
+    var unitDisplay = currentLang === 'te' ? i.unit_te : i.unit_en;
+    if (!unitDisplay || unitDisplay.toString().trim() === '') { unitDisplay = ''; } 
+    else if (isWeight) {
+        var pref = unitStore[key];
+        if (!pref) { pref = (baseUnitEn === 'grams' || baseUnitEn === 'గ్రా' || baseUnitEn === 'g' || baseUnitTe === 'grams' || baseUnitTe === 'గ్రా' || baseUnitTe === 'g') ? 'g' : 'kg'; }
+        var opKg = currentLang === 'te' ? 'కేజీ' : 'kg';
+        var opG = currentLang === 'te' ? 'గ్రా' : 'grams';
+        unitDisplay = '<div class="pill-toggle"><span class="' + (pref === 'kg' ? 'active' : '') + '" data-val="kg" onclick="handleUnitPillClick(\'' + safeKey + '\', this)">' + opKg + '</span><span class="' + (pref === 'g' ? 'active' : '') + '" data-val="g" onclick="handleUnitPillClick(\'' + safeKey + '\', this)">' + opG + '</span></div>';
+    }
+    var rowClass = parseFloat(savedQty) > 0 ? "selected-row" : "";
+    var animDelay = (idx < 15) ? (idx * 0.03) : 0;
+    return '<tr class="' + rowClass + '" style="animation-delay: ' + animDelay + 's;"><td style="color:var(--text-light); font-weight:600;">' + (i.code || '-') + '</td><td style="text-align:left;"><div style="font-weight:600; font-size:16px; margin-bottom:8px;">' + itemName + '</div><div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;"><div class="stepper"><button type="button" onclick="changeQty(\'' + inputId + '\', \'' + safeKey + '\', -1)">-</button><input type="number" step="any" id="' + inputId + '" value="' + savedQty + '" oninput="updateStore(\'' + inputId + '\', \'' + safeKey + '\', this.value)"><button type="button" onclick="changeQty(\'' + inputId + '\', \'' + safeKey + '\', 1)">+</button></div><div style="color:var(--text-light); font-weight:600;">' + unitDisplay + '</div></div></td></tr>';
+}
+
+function renderItems() {
+    var section = document.getElementById("itemsSection");
+    var searchTerm = document.getElementById('innerItemSearch').value.toLowerCase();
+    var t = i18n[currentLang];
+
+    // REVIEW LOGIC (Unified for both modes)
+    if (activeTab === "Review") {
+        var selMenu = allMenuItems.filter(function(m) { return menuStore[m.en]; });
+        var selItems = allItems.filter(function(i) { return qtyStore[i.en] && parseFloat(qtyStore[i.en]) > 0; });
+        
+        if (selMenu.length === 0 && selItems.length === 0) {
+            section.innerHTML = '<div class="loading" style="padding:40px;">మీరు ఇంకా ఏ వస్తువులను ఎంచుకోలేదు. (No items selected)</div>';
+            return;
+        }
+        
+        var revHtml = '';
+        if (selMenu.length > 0) {
+            revHtml += '<div><div class="category-title" style="background:#7c3aed !important; border-color:#7c3aed; margin-bottom:0;">' + (currentLang==='te'?'మెనూ (Menu)':'Selected Menu') + '</div></div>';
+            revHtml += '<div class="table-responsive" style="margin-bottom:20px; border-top-left-radius:0;"><table class="items-table" style="margin-bottom:0;"><tr><th style="width:15%;">'+t.thSno+'</th><th style="text-align:left; width:65%;">'+t.thItem+'</th><th style="width:20%;">Remove</th></tr>';
+            selMenu.forEach(function(m) {
+                var safeKey = m.en.replace(/'/g, "\\'");
+                revHtml += '<tr class="menu-selected-row">' +
+                    '<td style="color:var(--text-light); font-weight:600;">' + (m.code || '-') + '</td>' +
+                    '<td style="text-align:left; font-weight:600; font-size:15px; color:#7c3aed;">' + (currentLang==='te'?m.te:m.en) + '</td>' +
+                    '<td><button class="reset-btn" style="padding:6px 12px; font-size:12px; border-radius:8px;" onclick="updateMenuStore(\''+safeKey+'\', false)">✕</button></td>' +
+                    '</tr>';
+            });
+            revHtml += '</table></div>';
+        }
+        
+        if (selItems.length > 0) {
+            revHtml += '<div><div class="category-title" style="margin-bottom:0;">' + (currentLang==='te'?'సరుకులు (Groceries)':'Selected Groceries') + '</div></div>';
+            revHtml += '<div class="table-responsive" style="border-top-left-radius:0;"><table class="items-table" style="margin-bottom:0;"><tr><th style="width:15%;">'+t.thSno+'</th><th style="text-align:left; width:85%;">'+t.thItem+'</th></tr>';
+            selItems.forEach(function(i, idx) { revHtml += generateItemRowHTML(i, 'rev_' + idx); });
+            revHtml += '</table></div>';
+        }
+        section.innerHTML = revHtml;
+        return;
+    }
+
+    // MENU MODE RENDERING
+    if (orderMode === 'Menu') {
+        var menuList = allMenuItems;
+        if (activeTab !== "All") { menuList = menuList.filter(function(m) { return m.category_en && m.category_en.trim().toLowerCase() === activeTab.toLowerCase(); }); }
+        if (searchTerm) { menuList = menuList.filter(function(m) { return (m.en && m.en.toLowerCase().indexOf(searchTerm) !== -1) || (m.te && m.te.indexOf(searchTerm) !== -1); }); }
+        
+        if (menuList.length === 0) {
+            section.innerHTML = '<div class="loading" style="padding:40px;">No menu items found.</div>';
+            return;
+        }
+
+        var menuHtml = '<div class="table-responsive"><table class="items-table"><tr><th style="width:15%;">'+t.thSno+'</th><th style="text-align:left; width:65%;">'+t.thItem+'</th><th style="width:20%;">Add</th></tr>';
+        menuList.forEach(function(m, idx) {
+            var safeKey = m.en.replace(/'/g, "\\'");
+            var isChecked = menuStore[m.en] ? 'checked' : '';
+            var rowClass = isChecked ? "menu-selected-row" : "";
+            var itemName = currentLang === 'te' ? m.te : m.en;
+            var animDelay = (idx < 15) ? (idx * 0.03) : 0;
+            menuHtml += '<tr class="' + rowClass + '" style="animation-delay: ' + animDelay + 's;">' +
+                '<td style="color:var(--text-light); font-weight:600;">' + (m.code || '-') + '</td>' +
+                '<td style="text-align:left; font-weight:600; font-size:15px; color:#7c3aed;">' + itemName + '</td>' +
+                '<td><input type="checkbox" style="width:22px; height:22px; cursor:pointer; accent-color:#7c3aed;" ' + isChecked + ' onchange="updateMenuStore(\'' + safeKey + '\', this.checked)"></td>' +
+                '</tr>';
+        });
+        menuHtml += '</table></div>';
+        section.innerHTML = menuHtml;
+        return;
+    }
+
+    // GROCERY MODE RENDERING
+    if (orderMode === 'Groceries') {
+        var items = [];
+        if (activeTab === "All") { items = allItems; } 
+        else { items = allItems.filter(function(i) { return i.category_en && i.category_en.trim().toLowerCase() === activeTab.toLowerCase(); }); }
+        if (searchTerm) { items = items.filter(function(i) { return (i.en && i.en.toLowerCase().indexOf(searchTerm) !== -1) || (i.te && i.te.indexOf(searchTerm) !== -1); }); }
+        
+        var regHtml = '<div class="table-responsive"><table class="items-table"><tr><th style="width:15%;">' + t.thSno + '</th><th style="text-align:left; width:85%;">' + t.thItem + '</th></tr>';
+        items.forEach(function(i, idx) { regHtml += generateItemRowHTML(i, idx); });
+        regHtml += '</table></div>';
+        section.innerHTML = regHtml;
+    }
+}
+
+// ─────────────────────────────────────────────
+// SUBMIT
+// ─────────────────────────────────────────────
+function submitForm() {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) { return showToast("You are currently OFFLINE! Draft saved.", "error"); }
+
+    var itemsToProcess = [];
+    allItems.forEach(function(item) {
+        var name = item.en;
+        if (qtyStore[name] && parseFloat(qtyStore[name]) > 0) {
+            var finalUnit = currentLang === 'te' ? item.unit_te : item.unit_en;
+            if (!finalUnit || finalUnit.toString().trim() === '') { finalUnit = ''; } 
+            else {
+                var baseUnitEn = (item.unit_en || '').toString().toLowerCase().trim();
+                var baseUnitTe = (item.unit_te || '').toString().toLowerCase().trim();
+                var isWeight = (baseUnitEn === 'kg' || baseUnitEn === 'grams' || baseUnitEn === 'గ్రా' || baseUnitEn === 'కేజీ' || baseUnitEn === 'g' || baseUnitTe === 'kg' || baseUnitTe === 'grams' || baseUnitTe === 'గ్రా' || baseUnitTe === 'కేజీ' || baseUnitTe === 'g');
+                if(isWeight) {
+                    var pref = unitStore[name];
+                    if (!pref) { pref = (baseUnitEn === 'grams' || baseUnitEn === 'గ్రా' || baseUnitEn === 'g' || baseUnitTe === 'grams' || baseUnitTe === 'గ్రా' || baseUnitTe === 'g') ? 'g' : 'kg'; }
+                    if (pref === 'kg') finalUnit = currentLang === 'te' ? 'కేజీ' : 'kg';
+                    if (pref === 'g') finalUnit = currentLang === 'te' ? 'గ్రా' : 'grams';
+                }
+            }
+            itemsToProcess.push({
+                code: item.code, en: item.en, te: item.te, unit_en: item.unit_en, unit_te: item.unit_te,
+                finalUnit: finalUnit, category_en: item.category_en, category_te: item.category_te,
+                quantity: parseFloat(qtyStore[name])
+            });
+        }
+    });
+
+    var selectedMenuArray = [];
+    allMenuItems.forEach(function(m) { if(menuStore[m.en]) { selectedMenuArray.push(m); } });
+
+    if(itemsToProcess.length === 0 && selectedMenuArray.length === 0) {
+        return showToast(currentLang === 'te' ? "దయచేసి కనీసం ఒక్క వస్తువు లేదా మెనూ ఎంచుకోండి." : "Please select at least one item or menu dish.", "error");
+    }
+
+    var loggedInUser = localStorage.getItem('vangaLoggedInUser') || "Unknown User";
+    var data = {
+        editRowId: editingRowId,
+        person: document.getElementById('person').value, occasion: document.getElementById('occasion').value,
+        place: document.getElementById('place').value, mobile: document.getElementById('mobile').value,
+        guestCount: document.getElementById('guestCount').value, date: document.getElementById('date').value,
+        items: itemsToProcess, menuItems: selectedMenuArray, userName: loggedInUser, isGuestAction: isGuestUser 
+    };
+
+    document.getElementById('globalLoader').classList.add('active');
+    isSubmitting = true;
+
+    pdfTimeoutHandle = setTimeout(function() {
+        if (isSubmitting) {
+            isSubmitting = false;
+            document.getElementById('globalLoader').classList.remove('active');
+            showToast(i18n[currentLang].pdfTimeout, "error");
+        }
+    }, 180000);
+
+    if (typeof google !== 'undefined') {
+        google.script.run
+            .withSuccessHandler(function(pdfUrlsObj) {
+                if (pdfTimeoutHandle) { clearTimeout(pdfTimeoutHandle); pdfTimeoutHandle = null; }
+                document.getElementById('globalLoader').classList.remove('active');
+                showToast(currentLang === 'te' ? "సక్సెస్! సృష్టించబడ్డాయి." : "Success! Generated.", "success");
+                forceClearForm();
+                isSubmitting = false;
+                if(!isGuestUser) loadHistory(); else switchView('homeView');
+            })
+            .withFailureHandler(function(err) {
+                if (pdfTimeoutHandle) { clearTimeout(pdfTimeoutHandle); pdfTimeoutHandle = null; }
+                isSubmitting = false;
+                document.getElementById('globalLoader').classList.remove('active');
+                showToast("Error processing request. Please try again.", "error");
+            })
+            .createPDF(data);
+    }
+}
+</script>
 </body>
 </html>
